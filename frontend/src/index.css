@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
+
+/* scrooll  */
+.scroll{
+  overflow: auto ;
+}
+/* Tamaño del scroll */
+.scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Estilos barra (thumb) de scroll */
+.scroll::-webkit-scrollbar-thumb {
+  background: rgb(80, 84, 87);
+  border-radius: 4px;
+}
+
+.scroll::-webkit-scrollbar-thumb:active {
+  background-color: rgb(90, 93, 95);
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+  background: rgb(105, 110, 114);
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos track de scroll */
+.scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.scroll::-webkit-scrollbar-track:hover,
+.scroll::-webkit-scrollbar-track:active {
+  background: transparent;
+}
