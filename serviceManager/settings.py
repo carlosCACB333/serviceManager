@@ -153,7 +153,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.BasicAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework.authentication.SessionAuthentication",
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5
@@ -169,6 +169,7 @@ TOKEN_EXPIRED_AFTER_SECONDS = 60*60*3
 CORS_ALLOW_ALL_ORIGINS = True
 
 # rutas permitidas a la api
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "https://jcbsystem.herokuapp.com"
