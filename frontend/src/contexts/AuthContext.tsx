@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useCallback, useState } from "react";
 import { AuthInterface, UserInterface } from "../interfaces/authInterface";
+const baseURL = process.env.REACT_APP_API_URL + "/api";
 
 const initial = {
   token: "",
@@ -21,7 +22,7 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const checkToken = useCallback(() => {
     setAuth((state) => ({ ...state, checking: true }));
     axios
-      .post("http://127.0.0.1:8000/api/auth/checkToken", null, {
+      .post(baseURL + "/auth/checkToken", null, {
         headers: {
           Authorization: `token ${localStorage.getItem("token")}`,
         },
