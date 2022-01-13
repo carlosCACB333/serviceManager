@@ -10,6 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import os
+from decouple import config
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-q8f2bcjapcsmd$96+h0q1b5h%&)t)ze_gb%n!ga)vgy6m4s4%r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -49,7 +52,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-
+    # cors
+    'django.middleware.common.CommonMiddleware',
 
     # default
     'django.middleware.security.SecurityMiddleware',
@@ -59,9 +63,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    # cors
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'serviceManager.urls'
@@ -88,16 +91,22 @@ WSGI_APPLICATION = 'serviceManager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "dbservices",
+#         "USER": "root",
+#         "PASSWORD": "mysql",
+#         "HOST": "127.0.0.1",
+#         "PORT": "3306",
+#     }
+# }
+
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "dbservices",
-        "USER": "root",
-        "PASSWORD": "mysql",
-        "HOST": "127.0.0.1",
-        "PORT": "3306",
-    }
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -161,11 +170,17 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
 
-
-STATICFILES_DIRS = [BASE_DIR.joinpath(
-    'static'), BASE_DIR.joinpath('frontend/build/static')]
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR.joinpath("frontend/build/static"),
+)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
+
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
