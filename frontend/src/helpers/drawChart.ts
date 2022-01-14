@@ -2,6 +2,7 @@ import { ChartOptions } from "chart.js";
 
 export const charOption: ChartOptions = {
   responsive: true,
+
   maintainAspectRatio: true,
   plugins: {
     legend: {
@@ -12,6 +13,7 @@ export const charOption: ChartOptions = {
     intersect: true,
     mode: "index",
   },
+
   //   scales: {
   //     y: {
   //       grid: {
