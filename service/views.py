@@ -7,12 +7,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
-from user.mixins import AuthticationMixin
+from user.mixins import AuthticationMixin, AdminPermissionMixin
 from user.models import Client, User
-from .serializers import *
-from .models import *
 from django.db.models.functions import ExtractMonth
 from dateutil.relativedelta import relativedelta
+from .serializers import *
+from .models import *
 
 
 class TicketCreateApiView(AuthticationMixin, APIView):
@@ -22,7 +22,6 @@ class TicketCreateApiView(AuthticationMixin, APIView):
         service_data = request.data.pop('services')
         payment_data = request.data.pop('payments')
         ticket_data = request.data
-        print('**********')
         print(service_data)
 
         user = self.token.user
@@ -92,14 +91,14 @@ class ServiceViewset(AuthticationMixin, viewsets.ModelViewSet):
     queryset = Service.objects.all()
 
 
-class ReportApiView(AuthticationMixin, APIView):
+class ReportApiView(AuthticationMixin, AdminPermissionMixin, APIView):
     def get(self, *args, **kwargs):
         clients = Client.objects.all().count()
         tickets = Ticket.objects.all().count()
         users = User.objects.all().count()
         services = Service.objects.all().count()
         # cantidad de ventas  por mes
-        print('**************')
+
         sales = Ticket.objects.annotate(
             month=ExtractMonth('date')).values('month').annotate(count=Count('id')).values('count', 'month')
         ticket_count = {entry['month']: entry['count']
@@ -111,7 +110,8 @@ class ReportApiView(AuthticationMixin, APIView):
         sales_sum = takings.aggregate(total=Sum('sum'))
         takings = {taking['month']: taking['sum'] for taking in takings}
         # Proximas entregas de proyectos
-        tickets_due = Ticket.objects.all().order_by('end_date')[:5]
+        tickets_due = Ticket.objects.filter(
+            finish_date=None).order_by('end_date')[:5]
 
         # total cancelado
         canceled_total = Ticket.objects.aggregate(

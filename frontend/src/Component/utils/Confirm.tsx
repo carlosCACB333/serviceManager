@@ -12,6 +12,7 @@ import {
   Heading,
   CloseButton,
   IconButton,
+  MenuItem,
 } from "@chakra-ui/react";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import { HStack } from "@chakra-ui/layout";
@@ -21,7 +22,7 @@ interface Props {
   title?: string;
   onClick: () => void;
   desc?: string;
-  type?: "close" | "button" | "icon";
+  type?: "close" | "button" | "icon" | "menuItem";
   [x: string]: any;
 }
 
@@ -46,6 +47,12 @@ const Confirm = ({
 
       {type === "icon" && (
         <IconButton aria-label="update" {...rest} onClick={onOpen} />
+      )}
+
+      {type === "menuItem" && (
+        <MenuItem onClick={onOpen} {...rest}>
+          {title}
+        </MenuItem>
       )}
 
       <Modal

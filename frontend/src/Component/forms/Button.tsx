@@ -1,4 +1,3 @@
-import React from "react";
 import { Button as Btn } from "@chakra-ui/react";
 
 interface Props {

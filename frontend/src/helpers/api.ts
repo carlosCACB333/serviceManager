@@ -3,6 +3,10 @@ import {
   ServiceInterface,
   ClientInterface,
 } from "../interfaces/serviceInterface";
+import {
+  ChangePassInterface,
+  UserInterface,
+} from "../interfaces/userInterfaces";
 
 const baseURL = process.env.REACT_APP_API_URL + "/api";
 
@@ -25,14 +29,14 @@ export const listServiceApi = (url: string) => {
 
 export const getDetailTicketApi = (id: string) => {
   const TOKEN = `token ${localStorage.getItem("token")}`;
-  return axios.get("service/ticket/" + id, {
+  return axios.get("service/ticket/" + id + "/", {
     headers: { Authorization: TOKEN },
   });
 };
 
 export const deleteTicketApi = (id: number) => {
   const TOKEN = `token ${localStorage.getItem("token")}`;
-  return axios.delete("service/ticket/" + id, {
+  return axios.delete("service/ticket/" + id + "/", {
     headers: { Authorization: TOKEN },
   });
 };
@@ -53,14 +57,14 @@ export const addAdvanceApi = (data: any) => {
 
 export const removeAdvanceApi = (id: number) => {
   const TOKEN = `token ${localStorage.getItem("token")}`;
-  return axios.delete("service/advance/" + id, {
+  return axios.delete("service/advance/" + id + "/", {
     headers: { Authorization: TOKEN },
   });
 };
 
 export const removeServiceApi = (id: number) => {
   const TOKEN = `token ${localStorage.getItem("token")}`;
-  return axios.delete("service/detail/" + id, {
+  return axios.delete("service/detail/" + id + "/", {
     headers: { Authorization: TOKEN },
   });
 };
@@ -87,10 +91,23 @@ export const CloseProjectApi = (id: number) => {
 
 export const getClientApi = (id: string) => {
   const TOKEN = `token ${localStorage.getItem("token")}`;
-  return axios.get("auth/client/" + id, {
+  return axios.get("auth/client/" + id + "/", {
     headers: { Authorization: TOKEN },
   });
 };
+export const ClientSetRatingApi = (id: number, rating: number) => {
+  const TOKEN = `token ${localStorage.getItem("token")}`;
+  return axios.post(
+    "auth/rating/" + id,
+    {
+      rating: rating,
+    },
+    {
+      headers: { Authorization: TOKEN },
+    }
+  );
+};
+
 export const updateClientApi = (id: number, data: ClientInterface) => {
   const TOKEN = `token ${localStorage.getItem("token")}`;
   return axios.put("auth/client/" + id + "/", data, {
@@ -106,6 +123,21 @@ export const getClientsAllApi = (url: string) => {
 export const getReportApi = () => {
   const TOKEN = `token ${localStorage.getItem("token")}`;
   return axios.get("service/report", {
+    headers: { Authorization: TOKEN },
+  });
+};
+
+// users
+
+export const updateProfileApi = (id: number, data: UserInterface) => {
+  const TOKEN = `token ${localStorage.getItem("token")}`;
+  return axios.put("auth/profile/" + id, data, {
+    headers: { Authorization: TOKEN },
+  });
+};
+export const changePasswordApi = (data: ChangePassInterface) => {
+  const TOKEN = `token ${localStorage.getItem("token")}`;
+  return axios.post("auth/changePassword", data, {
     headers: { Authorization: TOKEN },
   });
 };

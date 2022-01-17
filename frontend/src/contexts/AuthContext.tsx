@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useCallback, useState } from "react";
-import { AuthInterface, UserInterface } from "../interfaces/authInterface";
+import { AuthInterface } from "../interfaces/authInterface";
+import { UserInterface } from "../interfaces/userInterfaces";
 const baseURL = process.env.REACT_APP_API_URL + "/api";
 
 const initial = {

@@ -1,4 +1,6 @@
 import {
+  Avatar,
+  Badge,
   Box,
   Button,
   Flex,
@@ -14,6 +16,7 @@ import {
   TableCaption,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -24,7 +27,7 @@ import { useEffect, useState } from "react";
 import { getClientsAllApi } from "../helpers/api";
 import { Link } from "react-router-dom";
 import { ClientInterface } from "../interfaces/serviceInterface";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { FaAngleLeft, FaAngleRight, FaPlusCircle } from "react-icons/fa";
 import {
   BsFillArrowUpRightSquareFill,
   BsThreeDotsVertical,
@@ -76,10 +79,10 @@ const ClientListPage = () => {
           <TableCaption>Clientes</TableCaption>
           <Thead>
             <Tr>
-              <Th>Nombre</Th>
-              <Th>Apellido</Th>
-              <Th>correo</Th>
-              <Th>phone</Th>
+              <Th>Cliente</Th>
+              <Th>Teléfono</Th>
+              <Th>Empresa</Th>
+              <Th>Dirección</Th>
               <Th>Referencia</Th>
               <Th></Th>
             </Tr>
@@ -124,10 +127,22 @@ interface TableItemProps {
 const TableItem = ({ client }: TableItemProps) => {
   return (
     <Tr>
-      <Td>{client.first_name}</Td>
-      <Td>{client.last_name}</Td>
-      <Td>{client.email}</Td>
+      <Td>
+        <Flex align="center">
+          <Avatar name={client.first_name + " " + client.last_name} />
+          <Box>
+            <Text ms={2} fontWeight="bold">
+              {client.first_name + " " + client.last_name}
+            </Text>
+            <Badge mx={2} colorScheme="blue" fontSize={10}>
+              {client.email}
+            </Badge>
+          </Box>
+        </Flex>
+      </Td>
       <Td>{client.phone}</Td>
+      <Td>{client.company}</Td>
+      <Td>{client.address}</Td>
       <Td>{client.reference}</Td>
       <Td>
         <Menu>
@@ -138,9 +153,7 @@ const TableItem = ({ client }: TableItemProps) => {
           ></MenuButton>
           <MenuList>
             <Link to={"/service/add/" + client.id}>
-              <MenuItem icon={<BsFillArrowUpRightSquareFill />}>
-                Vender servicio
-              </MenuItem>
+              <MenuItem icon={<FaPlusCircle />}>Nuevo servicio</MenuItem>
             </Link>
             <Link to={"/profile/" + client.id}>
               <MenuItem icon={<BsFillArrowUpRightSquareFill />}>

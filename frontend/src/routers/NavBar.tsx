@@ -12,15 +12,13 @@ import {
   FormControl,
   FormLabel,
   Switch,
-  useTheme,
   useColorMode,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { FaBars, FaPowerOff, FaSun, FaUser } from "react-icons/fa";
-import { FcApproval } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import { Text } from "@chakra-ui/react";
+import { Text, Badge } from "@chakra-ui/react";
 
 interface Props {
   setShow: Dispatch<SetStateAction<boolean>>;
@@ -54,8 +52,10 @@ const NavBar = ({ setShow }: Props) => {
           />
           <Box textOverflow="ellipsis" noOfLines={1} fontWeight="extrabold">
             {user.first_name + " " + user.last_name}
+            <Badge colorScheme="green" mx={2} rounded="full">
+              {user.rol}
+            </Badge>
           </Box>
-          <FcApproval />
         </HStack>
 
         <Flex alignItems={"center"}>
@@ -67,14 +67,23 @@ const NavBar = ({ setShow }: Props) => {
               cursor={"pointer"}
               minW={0}
             >
-              <Avatar size={"sm"} />
+              <Avatar
+                size={"sm"}
+                name={user.first_name + " " + user.last_name}
+              />
             </MenuButton>
             <MenuList p={3}>
               <Center flexDirection="column">
-                <Avatar size="xl" />
+                <Avatar
+                  size="xl"
+                  name={user.first_name + " " + user.last_name}
+                ></Avatar>
                 <Text fontWeight="bold" my="3">
                   ¡Hola!. {user.first_name + " " + user.last_name}
                 </Text>
+                <Badge colorScheme="green" mx={2} rounded="full">
+                  {user.rol}
+                </Badge>
               </Center>
 
               <Link to={"/profile"}>

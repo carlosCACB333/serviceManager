@@ -14,7 +14,11 @@ const AdvanceForm = ({ base_name = "" }) => {
           help="Pago total o adelanto"
         />
       </Stack>
-      <Area name={base_name + "detail"} label="Detalle del adelanto" />
+      <Area
+        name={base_name + "detail"}
+        label="Detalle del adelanto"
+        placeholder="Detalle de pago"
+      />
     </>
   );
 };

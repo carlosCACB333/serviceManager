@@ -113,10 +113,10 @@ const ServiceList = ({ services, removeService }: Props) => {
       <AdvanceForm base_name="payments." />
       <InputText
         name={"end_date"}
-        label="Fecha de entrega"
+        label="Entrega prevista"
         type="datetime-local"
       />
-      <Button title="Guardar" type="submit" size="lg" />
+      <Button title="Registrar servicio" type="submit" size="lg" />
     </Box>
   );
 };

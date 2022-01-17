@@ -6,16 +6,55 @@ export const loginValidator = yup.object({
   username: yup.string().required(msgRequered),
   password: yup.string().required(msgRequered),
 });
-export const signupValidator = yup.object({
-  username: yup.string().required(msgRequered),
-  password: yup.string().required(msgRequered),
+export const changePasswordValidator = yup.object({
+  password: yup
+    .string()
+    .required(msgRequered)
+    .min(8, "Este campo es muy pequeño"),
+  password1: yup
+    .string()
+    .required(msgRequered)
+    .min(8, "Este campo es muy pequeño"),
   password2: yup
     .string()
     .required(msgRequered)
-    .oneOf([yup.ref("password")], "Las contraseñas no coinciden"),
+    .min(8, "Este campo es muy pequeño")
+    .oneOf([yup.ref("password1")], "Las contraseñas no coinciden"),
+});
+
+const userBaseValidator = {
+  username: yup.string().required(msgRequered),
   first_name: yup.string().required(msgRequered),
   last_name: yup.string().required(msgRequered),
   email: yup.string().required(msgRequered).email("El email no es válido"),
+  rol: yup.string().required(msgRequered),
+};
+
+export const userAddValidator = yup.object({
+  ...userBaseValidator,
+  password: yup
+    .string()
+    .required(msgRequered)
+    .min(8, "Este campo es muy pequeño"),
+  password2: yup
+    .string()
+    .required(msgRequered)
+    .min(8, "Este campo es muy pequeño")
+    .oneOf([yup.ref("password")], "Las contraseñas no coinciden"),
+});
+export const userUpdateValidator = yup.object({
+  ...userBaseValidator,
+  password: yup.string().min(8, "Este campo es muy pequeño"),
+  password2: yup
+    .string()
+    .min(8, "Este campo es muy pequeño")
+    .when("password", {
+      is: (value: string) => (value ? true : false),
+      then: (schema) =>
+        schema
+          .required(msgRequered)
+          .oneOf([yup.ref("password")], "Las contraseñas no coinciden"),
+    }),
 });
 
 export const clientValidator = yup.object({
@@ -55,7 +94,10 @@ export const addServiceValidator = yup.object({
   client: clientValidator,
   services: serviceValidator,
   payments: paymentValidator,
-  end_date: yup.date().required(msgRequered),
+  end_date: yup
+    .date()
+    .required(msgRequered)
+    .min(new Date(), "Esta Fecha no puede ser menor que hoy"),
 });
 
 // referencia

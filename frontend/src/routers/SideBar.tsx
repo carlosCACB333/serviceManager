@@ -60,7 +60,7 @@ const SideBar = () => {
             className="logo"
             textTransform="uppercase"
           >
-            Servicios
+            JCB System
           </Text>
         </HStack>
         <Divider my="3" />
@@ -92,6 +92,13 @@ const SideBar = () => {
           </Text>
 
           <SideBarItem url="/client" name="Clientes" icon={FaUserFriends} />
+        </Stack>
+        <Stack>
+          <Text fontSize="small" ms="2">
+            Usuarios
+          </Text>
+
+          <SideBarItem url="/users" name="Usuarios" icon={FaUserFriends} />
         </Stack>
       </Box>
 

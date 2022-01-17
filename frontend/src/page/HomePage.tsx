@@ -93,14 +93,14 @@ const HomePage = () => {
               </Card>
               <Card p="5" border="1px">
                 <StatsCard2
-                  title="Total pagado"
+                  title="Total cancelado"
                   stat={"S/" + report.canceled_total}
                   icon={<FaDollarSign size={20} />}
                 />
               </Card>
               <Card p="5" border="1px">
                 <StatsCard2
-                  title="Total de deuda"
+                  title="saldo por cobrar"
                   stat={`S/${
                     Number(report.sales_total) - Number(report.canceled_total)
                   }`}

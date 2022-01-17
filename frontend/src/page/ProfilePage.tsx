@@ -1,13 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  List,
-  Progress,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, List, Progress, Text } from "@chakra-ui/react";
 import { Card } from "../Component/utils/Card";
 import {
   ClientInterface,
@@ -22,6 +14,13 @@ import { useToast } from "@chakra-ui/react";
 import { FormikHelpers } from "formik";
 import BackgroundProfile from "../Component/auth/BacgroundProfile";
 import ProfeItem from "../Component/auth/ProfileItem";
+import Rating from "../Component/clients/Rating";
+import { FaListOl, FaUserEdit } from "react-icons/fa";
+
+const options = [
+  { value: 1, name: "Lista de ventas", icon: FaListOl },
+  { value: 2, name: "Actualizar datos", icon: FaUserEdit },
+];
 
 const ProfilePage = () => {
   const { id } = useParams();
@@ -73,36 +72,40 @@ const ProfilePage = () => {
   return (
     <Flex direction="column" w="full">
       <BackgroundProfile
+        options={options}
         setBtnOption={setBtnOption}
         btnOption={btnOption}
         name={client?.first_name + " " + client?.last_name}
         email={client?.email}
       />
-      <Grid templateColumns="repeat(12,1fr)" gap="2">
-        <GridItem colSpan={{ base: 12, lg: 6, xl: 4, "2xl": 3 }}>
-          <Card>
-            <Box p="12px 5px" mb="12px">
-              <Text fontSize="lg" fontWeight="bold">
-                Datos personales
-              </Text>
+      <Flex gap="2" direction={{ base: "column-reverse", lg: "row" }}>
+        <Card>
+          <Box p="12px 5px" mb="12px">
+            <Text fontSize="lg" fontWeight="bold">
+              Datos personales
+            </Text>
+          </Box>
+          <Box px="5px">
+            <Box mb="12px">
+              <List spacing={3}>
+                <ProfeItem name="Nombre" value={client?.first_name} />
+                <ProfeItem name="Apellido" value={client?.last_name} />
+                <ProfeItem name="Email" value={client?.email} />
+                <ProfeItem name="Dirección" value={client?.address} />
+                <ProfeItem name="Referencia" value={client?.reference} />
+                <ProfeItem name="Empresa" value={client?.company} />
+                <ProfeItem name="Teléfono" value={client?.phone} />
+              </List>
             </Box>
-            <Box px="5px">
-              <Box mb="12px">
-                <List spacing={3}>
-                  <ProfeItem name="Nombre" value={client?.first_name} />
-                  <ProfeItem name="Apellido" value={client?.last_name} />
-                  <ProfeItem name="Email" value={client?.email} />
-                  <ProfeItem name="Dirección" value={client?.address} />
-                  <ProfeItem name="Referencia" value={client?.reference} />
-                  <ProfeItem name="Empresa" value={client?.company} />
-                  <ProfeItem name="Teléfono" value={client?.phone} />
-                </List>
-              </Box>
-            </Box>
-          </Card>
-        </GridItem>
+          </Box>
 
-        <GridItem colSpan={{ base: 12, lg: 6, xl: 8, "2xl": 9 }}>
+          <Heading size="sm" my={2}>
+            Calificacion del cliente
+          </Heading>
+          <Rating id={client.id || 0} initValue={client.score || 0} />
+        </Card>
+
+        <Flex flex={1} justify="center">
           <Card className="scroll" overscrollX="auto">
             <>
               {btnOption === 1 && <TicketTable tickets={tickets} size="sm" />}
@@ -111,8 +114,8 @@ const ProfilePage = () => {
               )}
             </>
           </Card>
-        </GridItem>
-      </Grid>
+        </Flex>
+      </Flex>
     </Flex>
   );
 };

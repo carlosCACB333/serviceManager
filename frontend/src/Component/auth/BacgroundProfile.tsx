@@ -7,13 +7,20 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import { FaClipboardList, FaUserEdit } from "react-icons/fa";
+import { IconType } from "react-icons/lib";
+
+interface Options {
+  name: string;
+  value: number;
+  icon: IconType;
+}
 
 interface BacgroundProps {
   btnOption: number;
   setBtnOption: Dispatch<SetStateAction<number>>;
   name?: string;
   email?: string;
+  options: Options[];
 }
 
 const BackgroundProfile = ({
@@ -21,6 +28,7 @@ const BackgroundProfile = ({
   btnOption,
   name = "",
   email = "",
+  options,
 }: BacgroundProps) => {
   const bgProfile = useColorModeValue(
     "hsla(0,0%,100%,.8)",
@@ -62,6 +70,7 @@ const BackgroundProfile = ({
           <Avatar
             me={{ md: "22px" }}
             // src={logo}
+            name={name}
             w="80px"
             h="80px"
             borderRadius="15px"
@@ -88,34 +97,23 @@ const BackgroundProfile = ({
           direction={{ base: "column", lg: "row" }}
           w={{ sm: "100%", md: "50%", lg: "auto" }}
         >
-          <Button
-            bg={btnOption === 1 ? "hsla(0,0%,100%,.3)" : "transparent"}
-            borderRadius="15px"
-            _focus={{ shadow: "none" }}
-            onClick={() => {
-              setBtnOption(1);
-            }}
-            _hover={{}}
-          >
-            <FaClipboardList />
-            <Text fontSize="xs" fontWeight="bold" mx={2}>
-              Lista de ventas
-            </Text>
-          </Button>
-          <Button
-            bg={btnOption === 2 ? "hsla(0,0%,100%,.3)" : "transparent"}
-            borderRadius="15px"
-            _focus={{ shadow: "none" }}
-            onClick={() => {
-              setBtnOption(2);
-            }}
-            _hover={{}}
-          >
-            <FaUserEdit />
-            <Text fontSize="xs" fontWeight="bold" mx={2}>
-              Actualizar datos
-            </Text>
-          </Button>
+          {options.map((op) => (
+            <Button
+              key={op.value}
+              bg={btnOption === op.value ? "hsla(0,0%,100%,.3)" : "transparent"}
+              borderRadius="15px"
+              _focus={{ shadow: "none" }}
+              onClick={() => {
+                setBtnOption(op.value);
+              }}
+              _hover={{}}
+            >
+              <op.icon />
+              <Text fontSize="xs" fontWeight="bold" mx={2}>
+                {op.name}
+              </Text>
+            </Button>
+          ))}
         </Flex>
       </Flex>
     </Box>

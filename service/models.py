@@ -7,7 +7,7 @@ class Ticket(models.Model):
     client = models.ForeignKey(
         "user.Client", verbose_name='Cliente', on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             verbose_name='Usuario', on_delete=models.CASCADE)
+                             verbose_name='Usuario', on_delete=models.PROTECT)
 
     is_closed = models.BooleanField("Cerrado", default=False)
 

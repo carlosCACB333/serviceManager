@@ -2,7 +2,6 @@ import { Box, Heading, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { Form, Formik, FormikValues } from "formik";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { loginValidator } from "../../validators/formValidator";
 import Button from "../forms/Button";
@@ -68,9 +67,6 @@ const Login = () => {
               help="Ingrese su contraseña"
             />
             <Button title="Iniciar sesión" type="submit" />
-            <Link to="/auth/signup">
-              <Button title="Crear cuenta" variant="link" bgGradient="" />
-            </Link>
           </Form>
         )}
       </Formik>

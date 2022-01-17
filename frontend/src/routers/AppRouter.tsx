@@ -1,6 +1,7 @@
 import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
 import {
-  BrowserRouter,
+  // BrowserRouter,
+  HashRouter,
   Navigate,
   Outlet,
   Route,
@@ -20,6 +21,12 @@ import ServiceDetailPage from "../page/ServiceDetailPage";
 import ClientListPage from "../page/ClientListPage";
 import ProfilePage from "../page/ProfilePage";
 import ProfileUserPage from "../page/ProfileUserPage";
+import NotFound from "../Component/utils/NotFound";
+import UserPage from "../page/UserPage";
+import { Provider } from "react-redux";
+import { store } from "../store/store";
+import Forbidden from "../Component/utils/Forbidden";
+import Unauthorized from "../Component/utils/Unauthorized";
 
 const AppRouter = () => {
   const { auth, checkToken } = useContext(AuthContext);
@@ -32,17 +39,30 @@ const AppRouter = () => {
     return <Loading />;
   }
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route
           path="/*"
           element={
             <Private>
-              <HomeLayout />
+              <Provider store={store}>
+                <HomeLayout />
+              </Provider>
             </Private>
           }
         >
-          <Route index element={<HomePage />} />
+          <Route
+            path="/*"
+            element={
+              <AdminUser>
+                <Outlet />
+              </AdminUser>
+            }
+          >
+            <Route index element={<HomePage />} />
+            <Route path="users" element={<UserPage />} />
+          </Route>
+
           <Route path="service/add" element={<ServiceAddPage />} />
           <Route path="service/add/:id" element={<ServiceAddPage />} />
           <Route path="service/list" element={<ServiceListPage />} />
@@ -50,6 +70,9 @@ const AppRouter = () => {
           <Route path="client" element={<ClientListPage />} />
           <Route path="profile" element={<ProfileUserPage />} />
           <Route path="profile/:id" element={<ProfilePage />} />
+
+          <Route path="forbidden" element={<Forbidden />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         <Route
           path="auth/*"
@@ -62,10 +85,12 @@ const AppRouter = () => {
           }
         >
           <Route path="login" element={<AuthPage />} />
-          <Route path="signup" element={<AuthPage />} />
+          <Route path="*" element={<NotFound />} />
+          {/* <Route path="signup" element={<AuthPage />} /> */}
         </Route>
+        <Route path="unauthorized" element={<Unauthorized />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
@@ -91,6 +116,14 @@ const Private = ({ children }: { children: JSX.Element }) => {
 const Public = ({ children }: { children: JSX.Element }) => {
   const auth = useContext(AuthContext);
   return auth?.auth.token ? <Navigate to="/" /> : children;
+};
+
+const AdminUser = ({ children }: { children: JSX.Element }) => {
+  const {
+    auth: { user },
+  } = useContext(AuthContext);
+
+  return user.rol === "Admin" ? children : <Navigate to="forbidden" />;
 };
 
 export default AppRouter;

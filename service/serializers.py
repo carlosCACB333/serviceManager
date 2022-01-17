@@ -2,7 +2,6 @@
 from rest_framework import serializers
 from .models import *
 from user.serializer import ClientSerializer, UserSerializer
-from drf_writable_nested.serializers import WritableNestedModelSerializer
 
 
 class ServiceSerializer(serializers.ModelSerializer):

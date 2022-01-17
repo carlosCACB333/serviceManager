@@ -1,3 +1,4 @@
+import moment from "moment";
 import { TicketInterface } from "../interfaces/serviceInterface";
 
 export const getStatsTicket = (ticket: TicketInterface) => {
@@ -16,4 +17,18 @@ export const getStatsTicket = (ticket: TicketInterface) => {
   let estado = costo - adelanto;
 
   return { cantidad, costo, adelanto, estado };
+};
+
+export const getProgessBarValue = (
+  first: Date | moment.MomentInput,
+  last: Date | moment.MomentInput
+) => {
+  const diff = moment(last).diff(moment(first));
+  const advance = moment().diff(moment(first));
+  const resp = (advance / diff) * 100;
+
+  if (resp > 100) {
+    return 100;
+  }
+  return resp;
 };

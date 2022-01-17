@@ -23,7 +23,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { Card } from "../Component/utils/Card";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   addAdvanceApi,
   CloseProjectApi,
@@ -52,11 +52,12 @@ import { useToast } from "@chakra-ui/react";
 import NotFound from "../Component/utils/NotFound";
 import { ServiceInterface } from "../interfaces/serviceInterface";
 import { updateServiceApi, finishProjectApi } from "../helpers/api";
-import { getStatsTicket } from "../helpers/TicketHelpers";
+import { getProgessBarValue, getStatsTicket } from "../helpers/TicketHelpers";
 import { paymentValidator } from "../validators/formValidator";
 import StatsCard2 from "../Component/services/StactsCard2";
 import { AiOutlineFundProjectionScreen } from "react-icons/ai";
 import Confirm from "../Component/utils/Confirm";
+import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
 
 moment.locale("es");
 
@@ -214,7 +215,10 @@ const ServiceDetailPage = () => {
   if (error) return <NotFound title={error} />;
   if (loading) return <Progress size="xs" isIndeterminate w="full" />;
   const { cantidad, costo, adelanto, estado } = getStatsTicket(ticket);
-
+  const warranty = getProgessBarValue(
+    ticket.start_warranty,
+    ticket.end_warranty
+  );
   return (
     <Grid gap="2" templateColumns="repeat(6, 1fr)">
       <GridItem colSpan={6}>
@@ -265,20 +269,20 @@ const ServiceDetailPage = () => {
       <GridItem colSpan={{ base: 6, xl: 2 }}>
         <Card>
           <Heading mb="2" size="md">
-            Detalle de ticket
+            Detalle de venta
           </Heading>
 
           <List spacing={3}>
-            <ListItm name="Fecha" value={moment(ticket?.date).format("LLLL")} />
-            <ListItm name="Costo total" value={"S/ " + costo} />
-            <ListItm name="Adelanto" value={"S/ " + adelanto} />
-            <ListItm name="Cantidad de proyectos" value={cantidad} />
             <ListItm
-              name="Estado de pago"
-              value={estado <= 0 ? "CANCELADO" : "Debe S/ " + estado}
+              name="Fecha de contrato"
+              value={moment(ticket?.date).format("LLLL")}
             />
             <ListItm
-              name="Estado del proyecto"
+              name="Entrega prevista "
+              value={moment(ticket?.end_date).format("LLLL")}
+            />
+            <ListItm
+              name="Estado de entrega"
               value={
                 ticket.finish_date
                   ? "Entregado el " + moment(ticket.finish_date).format("LLLL")
@@ -286,46 +290,46 @@ const ServiceDetailPage = () => {
               }
             />
             <ListItm
-              name="Cliente"
-              value={ticket?.client.first_name + " " + ticket?.client.last_name}
+              name="Estado de pago"
+              value={estado <= 0 ? "CANCELADO" : "Debe S/ " + estado}
             />
 
-            <ListItm name="Correo" value={ticket?.client.email} />
-            <ListItm name="Teléfono" value={ticket?.client.phone} />
-            <ListItm name="Dirección" value={ticket?.client.address} />
-            <ListItm name="Empresa" value={ticket?.client.company} />
-            <ListItm name="Referencia" value={ticket?.client.reference} />
+            <ListItm name="Costo total" value={"S/ " + costo} />
+            <ListItm name="Adelanto" value={"S/ " + adelanto} />
+            <ListItm name="Cantidad de proyectos" value={cantidad} />
+
+            {ticket.start_warranty ? (
+              <>
+                <ListItm
+                  name="Garantía"
+                  value={
+                    moment(ticket.start_warranty).format("L") +
+                    " - " +
+                    moment(ticket.end_warranty).format("L")
+                  }
+                />
+                {Math.floor(warranty) + "% - ("}
+                {moment(ticket.end_warranty).fromNow() + ")"}
+                <Progress value={warranty} size="xs" rounded={5} />
+              </>
+            ) : (
+              "Aun no inicia"
+            )}
+
+            <ListItm
+              name="Cliente"
+              value={
+                <Link to={"/profile/" + ticket.client.id}>
+                  <Button
+                    variant="link"
+                    rightIcon={<BsFillArrowUpRightSquareFill />}
+                  >
+                    {ticket?.client.first_name + " " + ticket?.client.last_name}
+                  </Button>
+                </Link>
+              }
+            />
           </List>
-
-          <Flex my="2" flexWrap="wrap" gap={1}>
-            {!ticket.finish_date && (
-              <Confirm
-                title="Entregar Proyecto"
-                onClick={() => finishProject(ticket.id)}
-                colorScheme="blue"
-                size="lg"
-              />
-            )}
-            {!ticket.is_closed && (
-              <Confirm
-                title="Cerrar venta"
-                desc="Esta acción es irreversible. Una vez que cierres la venta ya no podrás hacer ediciones.¿Deseas continuar?"
-                onClick={() => closeProject(ticket.id)}
-                colorScheme="blue"
-                size="lg"
-              />
-            )}
-
-            {!ticket.is_closed && (
-              <Confirm
-                title="Eliminar ticket"
-                desc="Esta acción es irreversible.¿Deseas Eliminar el ticket?"
-                onClick={() => deleteProject(ticket.id)}
-                colorScheme="red"
-                size="lg"
-              />
-            )}
-          </Flex>
         </Card>
       </GridItem>
       <GridItem colSpan={{ base: 6, xl: 4 }}>
@@ -401,6 +405,49 @@ const ServiceDetailPage = () => {
             </Modal>
           </Stack>
         </Card>
+      </GridItem>
+
+      <GridItem colSpan={6}>
+        <Flex
+          m="2"
+          gap={3}
+          direction={{ base: "column", lg: "row" }}
+          justify="end"
+        >
+          {!ticket.finish_date && (
+            <Confirm
+              title="Entregar Proyecto"
+              onClick={() => finishProject(ticket.id)}
+              colorScheme="blue"
+              size="lg"
+              height="100"
+              w="full"
+            />
+          )}
+          {!ticket.is_closed && (
+            <Confirm
+              title="Cerrar venta"
+              desc="Esta acción es irreversible. Una vez que cierres la venta ya no podrás hacer ediciones.¿Deseas continuar?"
+              onClick={() => closeProject(ticket.id)}
+              colorScheme="green"
+              size="lg"
+              height="100"
+              w="full"
+            />
+          )}
+
+          {!ticket.is_closed && (
+            <Confirm
+              title="Eliminar ticket"
+              desc="Esta acción es irreversible.¿Deseas Eliminar el ticket?"
+              onClick={() => deleteProject(ticket.id)}
+              colorScheme="red"
+              size="lg"
+              height="100"
+              w="full"
+            />
+          )}
+        </Flex>
       </GridItem>
     </Grid>
   );

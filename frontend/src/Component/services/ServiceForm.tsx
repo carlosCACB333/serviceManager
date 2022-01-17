@@ -11,15 +11,36 @@ const ServiceForm = ({ base_name = "" }: { base_name?: string }) => {
         Datos del servicio
       </Heading>
 
-      <InputText name={base_name + "name"} label="Nombre de servicio" />
-      <InputText name={base_name + "size"} label="Medida del proyecto" />
-      <InputText name={base_name + "address"} label="Dirección" />
+      <InputText
+        name={base_name + "name"}
+        label="Nombre de servicio"
+        placeholder="Nombre corto del servicio"
+      />
+      <InputText
+        name={base_name + "size"}
+        label="Medida del proyecto"
+        placeholder="Medida del proyecto"
+      />
+      <InputText
+        name={base_name + "address"}
+        label="Dirección"
+        placeholder="Dirección de instalación"
+      />
 
       <Stack direction={{ base: "column", xl: "row" }}>
-        <InputText name={base_name + "cost"} label="Costo" type="number" />
+        <InputText
+          name={base_name + "cost"}
+          label="Costo"
+          type="number"
+          placeholder="Costo del servicio"
+        />
         <InputText name={base_name + "amount"} label="cantidad" type="number" />
       </Stack>
-      <Area name={base_name + "description"} label="Descripción" />
+      <Area
+        name={base_name + "description"}
+        label="Descripción"
+        placeholder="todo los detalles del proyecto"
+      />
     </>
   );
 };

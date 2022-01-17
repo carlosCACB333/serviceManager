@@ -2,11 +2,11 @@ import { Box, Heading, Stack, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { Form, Formik, FormikValues } from "formik";
 import { Link } from "react-router-dom";
-import { signupValidator } from "../../validators/formValidator";
 import Button from "../forms/Button";
 import InputText from "../forms/InputText";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { userAddValidator } from "../../validators/formValidator";
 const baseURL = process.env.REACT_APP_API_URL + "/api";
 const Signup = () => {
   const { setAuth } = useContext(AuthContext);
@@ -52,7 +52,7 @@ const Signup = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
-        validationSchema={signupValidator}
+        validationSchema={userAddValidator}
       >
         {() => (
           <Form>

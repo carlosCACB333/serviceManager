@@ -55,6 +55,9 @@ const ServiceTable = ({
         <Thead>
           <Tr>
             <Th>Servicio</Th>
+            <Th>descripción</Th>
+            <Th>medida</Th>
+            <Th>Dirección</Th>
             <Th>tamaño</Th>
             <Th>Costo </Th>
             <Th>Unidades</Th>
@@ -66,6 +69,9 @@ const ServiceTable = ({
           {services.map((service) => (
             <Tr key={service.id}>
               <Td>{service.name}</Td>
+              <Td>{service.description}</Td>
+              <Td>{service.size}</Td>
+              <Td>{service.address}</Td>
               <Td>{service.size}</Td>
               <Td isNumeric>{service.cost}</Td>
               <Td isNumeric>{service.amount}</Td>
@@ -90,7 +96,7 @@ const ServiceTable = ({
         </Tbody>
         <Tfoot>
           <Tr>
-            <Th colSpan={3}>Total</Th>
+            <Th colSpan={6}>Total</Th>
             <Th isNumeric>{prejectoTotal}</Th>
             <Th isNumeric>{precioTotal}</Th>
           </Tr>

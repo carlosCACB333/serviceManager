@@ -195,7 +195,7 @@ const FormikChild = ({
             />
           </Card>
         </Flex>
-        <Box border="1px solid gray " rounded="xl">
+        <Box border="1px solid gray " rounded="xl" me={2}>
           <ServiceList services={services} removeService={removeService} />
         </Box>
       </Flex>

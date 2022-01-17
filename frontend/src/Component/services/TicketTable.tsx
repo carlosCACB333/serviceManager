@@ -21,7 +21,10 @@ import {
   BsThreeDotsVertical,
 } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { getStatsTicket } from "../../helpers/TicketHelpers";
+import {
+  getStatsTicket,
+  getProgessBarValue,
+} from "../../helpers/TicketHelpers";
 import { TicketInterface } from "../../interfaces/serviceInterface";
 
 interface Props {
@@ -47,8 +50,8 @@ const TicketTable = ({ tickets, mode = "all", ...rest }: Props) => {
             </>
           )}
           <Th>Estado</Th>
-          <Th w="full">Entrega</Th>
-          {mode === "all" && <Th w="full">Garantía</Th>}
+          <Th>Entrega</Th>
+          {mode === "all" && <Th>Garantía</Th>}
           <Th></Th>
         </Tr>
       </Thead>
@@ -71,15 +74,7 @@ const TableItem = ({
   mode?: "all" | "short";
 }) => {
   const { cantidad, costo, adelanto, estado } = getStatsTicket(ticket);
-
-  const getProgessBarValue = (
-    first: Date | moment.MomentInput,
-    last: Date | moment.MomentInput
-  ) => {
-    const diff = moment(last).diff(moment(first));
-    const advance = moment().diff(moment(first));
-    return (advance / diff) * 100;
-  };
+  const progress = getProgessBarValue(ticket.date, ticket.end_date);
 
   return (
     <Tr key={ticket.id}>
@@ -100,33 +95,28 @@ const TableItem = ({
           <Badge colorScheme="red">- S/{estado} </Badge>
         )}
       </Td>
-      <Td textAlign="center" flex="1">
-        {moment(ticket.end_date).fromNow()}
-
-        <Progress
-          value={getProgessBarValue(ticket.date, ticket.end_date)}
-          size="xs"
-          rounded={5}
-        />
-
-        {Math.floor(getProgessBarValue(ticket.date, ticket.end_date)) + "%  "}
+      <Td textAlign="center">
+        {ticket.finish_date ? (
+          <Badge colorScheme="green">Entregado</Badge>
+        ) : (
+          <>
+            {moment(ticket.end_date).fromNow()}
+            <Progress value={progress} size="xs" rounded={5} />
+            {Math.floor(progress) + "%  "}
+          </>
+        )}
       </Td>
 
       {mode === "all" && (
         <Td textAlign="center">
           {ticket.start_warranty ? (
             <>
-              {Math.floor(getProgessBarValue(ticket.date, ticket.end_date)) +
-                "%"}
+              {Math.floor(progress) + "%"}
 
-              <Progress
-                value={getProgessBarValue(ticket.date, ticket.end_date)}
-                size="xs"
-                rounded={5}
-              />
+              <Progress value={progress} size="xs" rounded={5} />
             </>
           ) : (
-            "Aun no inicia"
+            <Badge colorScheme="cyan">sin garantía</Badge>
           )}
         </Td>
       )}
