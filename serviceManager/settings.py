@@ -65,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'serviceManager.urls'
@@ -185,6 +186,7 @@ STATICFILES_DIRS = (
     BASE_DIR.joinpath("static"),
     BASE_DIR.joinpath("frontend/build/static"),
 )
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
