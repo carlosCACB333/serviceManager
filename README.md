@@ -1,5 +1,5 @@
 # Sistema Gestor de venta de servicios
-sistema para gestinar las ventas de la empresa `JCBSYSTEM`. 
+sistema para gestionar las ventas de la empresa `JCBSYSTEM`. 
 
 ## Tecnologías utilizadas 
 
