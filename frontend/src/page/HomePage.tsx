@@ -45,7 +45,7 @@ const HomePage = () => {
   if (!report) return <Progress size="xs" isIndeterminate w="full" />;
 
   return (
-    <Box w="full" px="2">
+    <Box w="full">
       <SimpleGrid columns={[1, null, 2, 4]} spacing={3}>
         <Card p={5}>
           <StatsCard

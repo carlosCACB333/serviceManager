@@ -99,10 +99,12 @@ const HomeLayout = () => {
   const [show, setShow] = useState(isLarge);
   return (
     <Flex gap="1">
-      {show && <SideBar />}
-      <VStack className="scroll" h="100vh" flex="1" overflowX="hidden" me={2}>
+      {show && <SideBar setShow={setShow} />}
+      <VStack h="100vh" flex="1" overflowX="hidden" spacing={0}>
         <NavBar setShow={setShow} />
-        <Outlet />
+        <VStack className="scroll" w="full" px={2}>
+          <Outlet />
+        </VStack>
       </VStack>
     </Flex>
   );

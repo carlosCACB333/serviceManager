@@ -16,6 +16,7 @@ import BackgroundProfile from "../Component/auth/BacgroundProfile";
 import ProfeItem from "../Component/auth/ProfileItem";
 import Rating from "../Component/clients/Rating";
 import { FaListOl, FaUserEdit } from "react-icons/fa";
+import NotFound from "../Component/utils/NotFound";
 
 const options = [
   { value: 1, name: "Lista de ventas", icon: FaListOl },
@@ -29,23 +30,24 @@ const ProfilePage = () => {
   const [client, setClient] = useState<ClientInterface>({} as ClientInterface);
   const [tickets, setTickets] = useState<TicketInterface[]>([]);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    setLoading(true);
-
     if (id) {
+      setLoading(true);
       Promise.all([getClientApi(id), getClientTicketApi(id)])
         .then((res) => {
           setClient(res[0].data);
           setTickets(res[1].data.results);
         })
-        .catch((err) => console.log(err.response))
+        .catch((err) => {
+          console.log(err.response);
+          setError(err.response.data.detail);
+        })
         .finally(() => setLoading(false));
     }
   }, [id]);
-
-  if (loading) return <Progress flex={1} isIndeterminate size="xs" />;
 
   const updateClient = (
     data: ClientInterface,
@@ -68,6 +70,9 @@ const ProfilePage = () => {
         }
       });
   };
+
+  if (error) return <NotFound title={error} />;
+  if (loading) return <Progress size="xs" isIndeterminate w="full" />;
 
   return (
     <Flex direction="column" w="full">

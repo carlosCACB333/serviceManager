@@ -5,6 +5,7 @@ import {
   Box,
   Flex,
   Heading,
+  Progress,
   useToast,
 } from "@chakra-ui/react";
 import { Form, Formik, FormikHelpers, FormikProps } from "formik";
@@ -23,6 +24,7 @@ import {
   PaymentInterface,
   ServiceInterface,
 } from "../interfaces/serviceInterface";
+import NotFound from "../Component/utils/NotFound";
 
 moment.locale("es");
 // const date = moment().format("YYYY-MM-DDTHH:mm");
@@ -128,20 +130,30 @@ interface FormikChildProps extends FormikProps<typeof formiInit> {
 const FormikChild = ({
   errors,
   values,
+  touched,
   setValues,
   services,
   setServices,
+  setErrors,
   setFieldTouched,
+  setTouched,
+  setSubmitting,
 }: FormikChildProps) => {
   const param = useParams();
-
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (param.id) {
+      setLoading(true);
       getClientApi(param.id)
         .then((res) => {
           setValues({ ...formiInit, client: res.data });
         })
-        .catch((err) => console.log(err.response));
+        .catch((err) => {
+          console.log(err.response);
+          setError(err.response.data.detail);
+        })
+        .finally(() => setLoading(false));
     } else {
       setValues(formiInit);
     }
@@ -150,6 +162,38 @@ const FormikChild = ({
   const removeService = (name: string) => {
     setServices((state) => state.filter((serv) => serv.name !== name));
   };
+
+  const handleAddService = () => {
+    let err: any = {};
+
+    if (!values.services.name.trim()) {
+      err.name = "Este campo es requerido";
+    }
+
+    if (!values.services.amount) {
+      err.amount = "Este campo es requerido";
+    }
+    if (!values.services.cost.trim()) {
+      err.cost = "Este campo es requerido";
+    }
+
+    if (Object.keys(err).length === 0) {
+      setServices((state) => [...state, { ...values.services }]);
+      setValues({ ...values, services: serviceInit });
+    } else {
+      setTouched(
+        {
+          ...touched,
+          services: { name: true, cost: true, amount: true },
+        },
+        false
+      );
+
+      setErrors({ ...errors, services: err });
+    }
+  };
+  if (error) return <NotFound title={error} />;
+  if (loading) return <Progress size="xs" isIndeterminate w="full" />;
   return (
     <Form>
       {/* <Heading mb="5">Registro de venta de servicio</Heading> */}
@@ -160,43 +204,43 @@ const FormikChild = ({
           direction={{ base: "column", xl: "row" }}
           justify="center"
         >
-          <Card>
-            <Heading size="lg" mb={3}>
-              Datos del cliente
-            </Heading>
+          {!param.id && (
+            <Card>
+              <Heading size="lg" mb={3}>
+                Datos del cliente
+              </Heading>
 
-            <Box>
-              {errors.client?.non_field_errors && (
-                <Alert status="error">
-                  <AlertIcon />
-                  <AlertTitle mr={2}>Error</AlertTitle>
-                  {errors.client?.non_field_errors}
-                </Alert>
-              )}
-            </Box>
-            <ClientForm
-              base_name="client."
-              editable={param.id === undefined}
-              search={true}
-            />
-          </Card>
+              <Box>
+                {errors.client?.non_field_errors && (
+                  <Alert status="error">
+                    <AlertIcon />
+                    <AlertTitle mr={2}>Error</AlertTitle>
+                    {errors.client?.non_field_errors}
+                  </Alert>
+                )}
+              </Box>
+              <ClientForm
+                base_name="client."
+                editable={param.id === undefined}
+                search={true}
+              />
+            </Card>
+          )}
           <Card>
             <ServiceForm base_name="services." />
             <Button
               title="Agregar Servicio"
               w="auto"
-              onClick={() => {
-                if (!errors.services) {
-                  setServices((state) => [...state, { ...values.services }]);
-                } else {
-                  setFieldTouched("services.name", true);
-                }
-              }}
+              onClick={handleAddService}
             />
           </Card>
         </Flex>
         <Box border="1px solid gray " rounded="xl" me={2}>
-          <ServiceList services={services} removeService={removeService} />
+          <ServiceList
+            services={services}
+            removeService={removeService}
+            client={values.client.first_name + " " + values.client.last_name}
+          />
         </Box>
       </Flex>
     </Form>

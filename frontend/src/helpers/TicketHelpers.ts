@@ -3,10 +3,9 @@ import { TicketInterface } from "../interfaces/serviceInterface";
 
 export const getStatsTicket = (ticket: TicketInterface) => {
   let costo = 0;
-  let cantidad = 0;
+  let cantidad = ticket.services.length;
   let adelanto = 0;
   ticket.services.forEach((serv) => {
-    cantidad += serv.amount;
     costo += serv.amount * Number(serv.cost);
   });
 

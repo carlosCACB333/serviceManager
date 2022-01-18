@@ -6,10 +6,12 @@ import {
   Table,
   Tbody,
   Td,
+  Text,
   Tfoot,
   Th,
   Thead,
   Tr,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import Button from "../forms/Button";
 import { Box } from "@chakra-ui/react";
@@ -23,9 +25,10 @@ import { AiOutlineFundProjectionScreen } from "react-icons/ai";
 interface Props {
   services: typeof serviceInit[];
   removeService: (name: string) => void;
+  client: string;
 }
 
-const ServiceList = ({ services, removeService }: Props) => {
+const ServiceList = ({ services, removeService, client }: Props) => {
   let precioTotal = 0;
   let prejectoTotal = 0;
 
@@ -39,6 +42,19 @@ const ServiceList = ({ services, removeService }: Props) => {
       <Heading size="lg" my={3}>
         Resúmen de servicios
       </Heading>
+
+      <Text
+        color={"blue.400"}
+        fontWeight={600}
+        fontSize={"md"}
+        bg={useColorModeValue("blue.50", "blue.900")}
+        p={2}
+        alignSelf={"flex-start"}
+        rounded={"md"}
+        my={3}
+      >
+        CLIENTE : {client}
+      </Text>
       <Box mb="5">
         <Table size="sm">
           {/* <TableCaption>Lista de servicios</TableCaption> */}

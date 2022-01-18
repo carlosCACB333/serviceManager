@@ -10,6 +10,7 @@ import {
   Stack,
   Text,
   useColorMode,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
@@ -22,16 +23,26 @@ import {
   FaUserAlt,
   FaUserFriends,
 } from "react-icons/fa";
-import { FunctionComponent, useContext } from "react";
+import { Dispatch, FunctionComponent, SetStateAction, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 // import calendar from "../assets/calendar.png";
-
-const SideBar = () => {
+interface Props {
+  setShow: Dispatch<SetStateAction<boolean>>;
+}
+const SideBar = ({ setShow }: Props) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { authLogout } = useContext(AuthContext);
 
+  const [isLarge] = useMediaQuery("(min-width: 62em)");
+
   const handleLogout = () => {
     authLogout();
+  };
+
+  const handleChange = () => {
+    if (!isLarge) {
+      setShow(false);
+    }
   };
   return (
     <Flex
@@ -68,19 +79,31 @@ const SideBar = () => {
           <Text fontSize="small" ms="2">
             Dashboard
           </Text>
-          <SideBarItem url="/" name="home" icon={FaBuffer} />
-          <SideBarItem url="/profile" name="Perfil" icon={FaUserAlt} />
+          <SideBarItem
+            onClick={handleChange}
+            url="/"
+            name="home"
+            icon={FaBuffer}
+          />
+          <SideBarItem
+            onClick={handleChange}
+            url="/profile"
+            name="Perfil"
+            icon={FaUserAlt}
+          />
         </Stack>
         <Stack>
           <Text fontSize="small" ms="2">
             Servicios
           </Text>
           <SideBarItem
+            onClick={handleChange}
             url="/service/add"
             name="Registrar venta"
             icon={FaDollarSign}
           />
           <SideBarItem
+            onClick={handleChange}
             url="/service/list"
             name="Lista de ventas"
             icon={FaClipboardList}
@@ -91,14 +114,24 @@ const SideBar = () => {
             Clientes
           </Text>
 
-          <SideBarItem url="/client" name="Clientes" icon={FaUserFriends} />
+          <SideBarItem
+            onClick={handleChange}
+            url="/client"
+            name="Clientes"
+            icon={FaUserFriends}
+          />
         </Stack>
         <Stack>
           <Text fontSize="small" ms="2">
             Usuarios
           </Text>
 
-          <SideBarItem url="/users" name="Usuarios" icon={FaUserFriends} />
+          <SideBarItem
+            onClick={handleChange}
+            url="/users"
+            name="Usuarios"
+            icon={FaUserFriends}
+          />
         </Stack>
       </Box>
 

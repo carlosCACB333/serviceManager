@@ -64,9 +64,10 @@ const ClientListPage = () => {
         {loading && <Progress flex={1} isIndeterminate size="xs" />}
       </Box>
       <Card overflowX="auto" className="scroll">
-        <Flex justify="space-between">
+        <Flex justify="space-between" mb={3}>
           <Heading size="lg">Clientes</Heading>
           <Input
+            ms={2}
             name="search"
             variant="filled"
             placeholder="Buscar cliente..."

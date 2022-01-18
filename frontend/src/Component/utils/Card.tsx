@@ -9,7 +9,7 @@ export const Card = ({ children, ...rest }: Props) => {
   return (
     <Box
       bg={useColorModeValue("white", "gray.800")}
-      p="10"
+      padding={[3, 5, 7, 10]}
       rounded="2xl"
       boxShadow="md"
       {...rest}

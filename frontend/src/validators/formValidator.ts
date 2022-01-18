@@ -68,12 +68,12 @@ export const clientValidator = yup.object({
 });
 
 const ServiceBaseValidator = {
-  name: yup.string().required(msgRequered),
+  name: yup.string(),
   size: yup.string(),
   address: yup.string(),
   description: yup.string(),
-  cost: yup.number().required(msgRequered).min(0, "El costo debe ser positivo"),
-  amount: yup.number().required(msgRequered).min(1, "La cantidad mínima es 1"),
+  cost: yup.number().min(0, "El costo debe ser positivo"),
+  amount: yup.number().min(1, "La cantidad mínima es 1"),
 };
 
 export const serviceValidator = yup.object({
