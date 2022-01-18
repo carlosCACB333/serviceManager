@@ -111,7 +111,11 @@ const ProfilePage = () => {
         </Card>
 
         <Flex flex={1} justify="center">
-          <Card className="scroll" overscrollX="auto">
+          <Card
+            className="scroll"
+            overscrollX="auto"
+            w={{ base: "full", lg: "auto" }}
+          >
             <>
               {btnOption === 1 && <TicketTable tickets={tickets} size="sm" />}
               {btnOption === 2 && (

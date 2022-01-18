@@ -55,14 +55,14 @@ const ServiceList = ({ services, removeService, client }: Props) => {
       >
         CLIENTE : {client}
       </Text>
-      <Box mb="5">
+      <Box mb="5" className="scroll">
         <Table size="sm">
           {/* <TableCaption>Lista de servicios</TableCaption> */}
           <Thead>
             <Tr>
               <Th>Servicio</Th>
               {/* <Th>Descripción</Th> */}
-              <Th>tamaño</Th>
+              <Th>medidas</Th>
               <Th>Costo </Th>
               <Th>Unidades</Th>
               <Th>Parcial</Th>

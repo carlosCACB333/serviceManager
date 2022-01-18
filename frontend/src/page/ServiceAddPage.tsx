@@ -135,13 +135,12 @@ const FormikChild = ({
   services,
   setServices,
   setErrors,
-  setFieldTouched,
   setTouched,
-  setSubmitting,
 }: FormikChildProps) => {
   const param = useParams();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
   useEffect(() => {
     if (param.id) {
       setLoading(true);
@@ -180,6 +179,13 @@ const FormikChild = ({
     if (Object.keys(err).length === 0) {
       setServices((state) => [...state, { ...values.services }]);
       setValues({ ...values, services: serviceInit });
+      toast({
+        title: "Servicio agregado",
+        status: "success",
+        description: "El servicio se agregó a su lista",
+        position: "top-end",
+        isClosable: true,
+      });
     } else {
       setTouched(
         {

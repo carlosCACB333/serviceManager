@@ -52,7 +52,11 @@ const ProfileUserPage = () => {
 
         {/* colSpan={{ base: 12, lg: 6, xl: 4, "2xl": 3 }} */}
         <Flex flex={1} justifyContent="center">
-          <Card className="scroll" overscrollX="auto">
+          <Card
+            className="scroll"
+            overscrollX="auto"
+            w={{ base: "full", lg: "auto" }}
+          >
             <>
               {btnOption === 1 && <ProfileUpdateForm user={user} />}
               {btnOption === 2 && <ChangePassForm />}
