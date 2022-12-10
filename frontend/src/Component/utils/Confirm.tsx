@@ -1,6 +1,11 @@
+import { HStack } from '@chakra-ui/layout';
 import {
   Box,
   Button,
+  CloseButton,
+  Heading,
+  IconButton,
+  MenuItem,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -9,28 +14,23 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  Heading,
-  CloseButton,
-  IconButton,
-  MenuItem,
-} from "@chakra-ui/react";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
-import { HStack } from "@chakra-ui/layout";
+} from '@chakra-ui/react';
+import { AiOutlineExclamationCircle } from 'react-icons/ai';
 
 interface Props {
   titleModal?: string;
   title?: string;
   onClick: () => void;
   desc?: string;
-  type?: "close" | "button" | "icon" | "menuItem";
+  type?: 'close' | 'button' | 'icon' | 'menuItem';
   [x: string]: any;
 }
 
 const Confirm = ({
-  titleModal = "Alerta",
-  title = "",
-  desc = "Esta acción es irrebercible. ¿Deseas continuar?",
-  type = "button",
+  titleModal = 'Alerta',
+  title = '',
+  desc = 'Esta acción es irrebercible. ¿Deseas continuar?',
+  type = 'button',
   onClick,
 
   ...rest
@@ -38,18 +38,16 @@ const Confirm = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box>
-      {type === "button" && (
+      {type === 'button' && (
         <Button onClick={onOpen} {...rest}>
           {title}
         </Button>
       )}
-      {type === "close" && <CloseButton onClick={onOpen} {...rest} />}
+      {type === 'close' && <CloseButton onClick={onOpen} {...rest} />}
 
-      {type === "icon" && (
-        <IconButton aria-label="update" {...rest} onClick={onOpen} />
-      )}
+      {type === 'icon' && <IconButton aria-label="update" {...rest} onClick={onOpen} />}
 
-      {type === "menuItem" && (
+      {type === 'menuItem' && (
         <MenuItem onClick={onOpen} {...rest}>
           {title}
         </MenuItem>

@@ -6,8 +6,8 @@ import {
   ListItem,
   Textarea,
   UnorderedList,
-} from "@chakra-ui/react";
-import { useField } from "formik";
+} from '@chakra-ui/react';
+import { useField } from 'formik';
 
 export interface InputProps {
   name: string;

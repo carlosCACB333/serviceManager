@@ -1,14 +1,6 @@
-import {
-  Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderTrack,
-  Tooltip,
-} from "@chakra-ui/react";
-import React from "react";
-import { useEffect } from "react";
-import { ClientSetRatingApi } from "../../helpers/api";
+import { Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, Tooltip } from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { ClientSetRatingApi } from '../../helpers/api';
 
 interface Props {
   id: number;
@@ -55,12 +47,7 @@ const Rating = ({ id, initValue }: Props) => {
       <SliderTrack>
         <SliderFilledTrack />
       </SliderTrack>
-      <Tooltip
-        hasArrow
-        placement="top"
-        isOpen={showTooltip}
-        label={`${sliderValue}%`}
-      >
+      <Tooltip hasArrow placement="top" isOpen={showTooltip} label={`${sliderValue}%`}>
         <SliderThumb />
       </Tooltip>
     </Slider>

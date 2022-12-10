@@ -21,28 +21,25 @@ import {
   Thead,
   Tr,
   useBreakpointValue,
-} from "@chakra-ui/react";
-import { Card } from "../Component/utils/Card";
-import { useEffect, useState } from "react";
-import { getClientsAllApi } from "../helpers/api";
-import { Link } from "react-router-dom";
-import { ClientInterface } from "../interfaces/serviceInterface";
-import { FaAngleLeft, FaAngleRight, FaPlusCircle } from "react-icons/fa";
-import {
-  BsFillArrowUpRightSquareFill,
-  BsThreeDotsVertical,
-} from "react-icons/bs";
+} from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { BsFillArrowUpRightSquareFill, BsThreeDotsVertical } from 'react-icons/bs';
+import { FaAngleLeft, FaAngleRight, FaPlusCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { Card } from '../Component/utils/Card';
+import { getClientsAllApi } from '../helpers/api';
+import { ClientInterface } from '../interfaces/serviceInterface';
 
 const ClientListPage = () => {
-  const sizeTable = useBreakpointValue({ base: "sm", xl: "lg" });
+  const sizeTable = useBreakpointValue({ base: 'sm', xl: 'lg' });
   const [clients, setClients] = useState<ClientInterface[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [prev, setPrev] = useState();
   const [next, setNext] = useState();
 
   useEffect(() => {
-    const url = "auth/client/?search=" + search;
+    const url = 'auth/client/?search=' + search;
     getClient(url);
   }, [search]);
 
@@ -60,9 +57,7 @@ const ClientListPage = () => {
 
   return (
     <Box w="full">
-      <Box h={1}>
-        {loading && <Progress flex={1} isIndeterminate size="xs" />}
-      </Box>
+      <Box h={1}>{loading && <Progress flex={1} isIndeterminate size="xs" />}</Box>
       <Card overflowX="auto" className="scroll">
         <Flex justify="space-between" mb={3}>
           <Heading size="lg">Clientes</Heading>
@@ -98,7 +93,7 @@ const ClientListPage = () => {
         <Box alignSelf="end">
           {prev && (
             <Button
-              onClick={() => getClient(prev + "&search=" + search)}
+              onClick={() => getClient(prev + '&search=' + search)}
               me={1}
               colorScheme="blue"
               leftIcon={<FaAngleLeft />}
@@ -108,7 +103,7 @@ const ClientListPage = () => {
           )}
           {next && (
             <Button
-              onClick={() => getClient(next + "&search=" + search)}
+              onClick={() => getClient(next + '&search=' + search)}
               colorScheme="blue"
               rightIcon={<FaAngleRight />}
             >
@@ -130,10 +125,10 @@ const TableItem = ({ client }: TableItemProps) => {
     <Tr>
       <Td>
         <Flex align="center">
-          <Avatar name={client.first_name + " " + client.last_name} />
+          <Avatar name={client.first_name + ' ' + client.last_name} />
           <Box>
             <Text ms={2} fontWeight="bold">
-              {client.first_name + " " + client.last_name}
+              {client.first_name + ' ' + client.last_name}
             </Text>
             <Badge mx={2} colorScheme="blue" fontSize={10}>
               {client.email}
@@ -147,19 +142,13 @@ const TableItem = ({ client }: TableItemProps) => {
       <Td>{client.reference}</Td>
       <Td>
         <Menu>
-          <MenuButton
-            as={IconButton}
-            icon={<BsThreeDotsVertical />}
-            variant="ghost"
-          ></MenuButton>
+          <MenuButton as={IconButton} icon={<BsThreeDotsVertical />} variant="ghost"></MenuButton>
           <MenuList>
-            <Link to={"/service/add/" + client.id}>
+            <Link to={'/service/add/' + client.id}>
               <MenuItem icon={<FaPlusCircle />}>Nuevo servicio</MenuItem>
             </Link>
-            <Link to={"/profile/" + client.id}>
-              <MenuItem icon={<BsFillArrowUpRightSquareFill />}>
-                ver perfil
-              </MenuItem>
+            <Link to={'/profile/' + client.id}>
+              <MenuItem icon={<BsFillArrowUpRightSquareFill />}>ver perfil</MenuItem>
             </Link>
           </MenuList>
         </Menu>

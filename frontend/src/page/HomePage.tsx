@@ -1,27 +1,14 @@
-import {
-  Box,
-  Progress,
-  SimpleGrid,
-  Heading,
-  Grid,
-  GridItem,
-  Flex,
-} from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import {
-  FaClipboardList,
-  FaDollarSign,
-  FaUsers,
-  FaUsersCog,
-} from "react-icons/fa";
-import { AiOutlineFundProjectionScreen } from "react-icons/ai";
-import StatsCard from "../Component/services/StactsCard";
-import StatsCard2 from "../Component/services/StactsCard2";
-import { Card } from "../Component/utils/Card";
-import { getReportApi } from "../helpers/api";
-import SalesChar from "../Component/services/SalesChar";
-import TicketTable from "../Component/services/TicketTable";
-import { TicketInterface } from "../interfaces/serviceInterface";
+import { Box, Flex, Grid, GridItem, Heading, Progress, SimpleGrid } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { AiOutlineFundProjectionScreen } from 'react-icons/ai';
+import { FaClipboardList, FaDollarSign, FaUsers, FaUsersCog } from 'react-icons/fa';
+import SalesChar from '../Component/services/SalesChar';
+import StatsCard from '../Component/services/StactsCard';
+import StatsCard2 from '../Component/services/StactsCard2';
+import TicketTable from '../Component/services/TicketTable';
+import { Card } from '../Component/utils/Card';
+import { getReportApi } from '../helpers/api';
+import { TicketInterface } from '../interfaces/serviceInterface';
 
 interface ReportpProps {
   users: number;
@@ -48,32 +35,16 @@ const HomePage = () => {
     <Box w="full">
       <SimpleGrid columns={[1, null, 2, 4]} spacing={3}>
         <Card p={5}>
-          <StatsCard
-            title="Clientes"
-            stat={report.clients}
-            icon={<FaUsersCog size={20} />}
-          />
+          <StatsCard title="Clientes" stat={report.clients} icon={<FaUsersCog size={20} />} />
         </Card>
         <Card p={5}>
-          <StatsCard
-            title="Usuarios"
-            stat={report.users}
-            icon={<FaUsers size={20} />}
-          />
+          <StatsCard title="Usuarios" stat={report.users} icon={<FaUsers size={20} />} />
         </Card>
         <Card p={5}>
-          <StatsCard
-            title="Boletas"
-            stat={report.tickets}
-            icon={<FaClipboardList size={20} />}
-          />
+          <StatsCard title="Boletas" stat={report.tickets} icon={<FaClipboardList size={20} />} />
         </Card>
         <Card p={5}>
-          <StatsCard
-            title="Proyectos"
-            stat={report.services}
-            icon={<AiOutlineFundProjectionScreen size={20} />}
-          />
+          <StatsCard title="Proyectos" stat={report.services} icon={<AiOutlineFundProjectionScreen size={20} />} />
         </Card>
       </SimpleGrid>
 
@@ -87,23 +58,21 @@ const HomePage = () => {
               <Card p="5" border="1px">
                 <StatsCard2
                   title="Total de ventas"
-                  stat={"S/" + report.sales_total}
+                  stat={'S/' + report.sales_total}
                   icon={<FaDollarSign size={20} />}
                 />
               </Card>
               <Card p="5" border="1px">
                 <StatsCard2
                   title="Total cancelado"
-                  stat={"S/" + report.canceled_total}
+                  stat={'S/' + report.canceled_total}
                   icon={<FaDollarSign size={20} />}
                 />
               </Card>
               <Card p="5" border="1px">
                 <StatsCard2
                   title="saldo por cobrar"
-                  stat={`S/${
-                    Number(report.sales_total) - Number(report.canceled_total)
-                  }`}
+                  stat={`S/${Number(report.sales_total) - Number(report.canceled_total)}`}
                   icon={<FaDollarSign size={20} />}
                 />
               </Card>
@@ -124,11 +93,7 @@ const HomePage = () => {
           </Card>
         </GridItem>
         <GridItem colSpan={{ base: 6, xl: 3 }}>
-          <SalesChar
-            report={report.ticket_count}
-            title="Cantidad de boletas"
-            color="red"
-          />
+          <SalesChar report={report.ticket_count} title="Cantidad de boletas" color="red" />
         </GridItem>
       </Grid>
     </Box>

@@ -1,5 +1,5 @@
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Box, Button, Heading, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 const NotFound = ({ title }: { title?: string }) => {
   return (
@@ -16,8 +16,8 @@ const NotFound = ({ title }: { title?: string }) => {
       <Text fontSize="18px" mt={3} mb={2}>
         Page Not Found
       </Text>
-      <Text color={"gray.500"} mb={6}>
-        {title || "Pagina no encontrado"}
+      <Text color={'gray.500'} mb={6}>
+        {title || 'Pagina no encontrado'}
       </Text>
 
       <Link to="/">

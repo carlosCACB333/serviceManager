@@ -1,14 +1,10 @@
-import { Flex, Box, HStack } from "@chakra-ui/layout";
-import { useColorModeValue } from "@chakra-ui/color-mode";
-import { Skeleton, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import { useColorModeValue } from '@chakra-ui/color-mode';
+import { Box, Flex, HStack } from '@chakra-ui/layout';
+import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/react';
 const Loading = () => {
   return (
     <Flex h="100vh" gap="2">
-      <Box
-        bg={useColorModeValue("gray.100", "gray.800")}
-        p={3}
-        overflow="hidden"
-      >
+      <Box bg={useColorModeValue('gray.100', 'gray.800')} p={3} overflow="hidden">
         <LoadingUser />
         <LoadingUser />
         <LoadingUser />
@@ -22,7 +18,7 @@ const Loading = () => {
         <LoadingUser />
       </Box>
 
-      <Box bg={useColorModeValue("gray.50", "gray.900")} flex={1}>
+      <Box bg={useColorModeValue('gray.50', 'gray.900')} flex={1}>
         <Flex align="center" justify="space-between">
           <Flex boxShadow="lg" align="center" my={2} p={2}>
             <SkeletonCircle size="10" me={2} />

@@ -1,6 +1,6 @@
-import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { FiAlertTriangle } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { FiAlertTriangle } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const Unauthorized = ({ title }: { title?: string }) => {
   return (
@@ -22,9 +22,9 @@ const Unauthorized = ({ title }: { title?: string }) => {
           Acceso denegado
         </Text>
       </Flex>
-      <Text color={"gray.500"} mb={6}>
+      <Text color={'gray.500'} mb={6}>
         {title ||
-          "El token no es correcto. Es posible que haya caducado o fue alterado. Vuelva a iniciar sesión por favor"}
+          'El token no es correcto. Es posible que haya caducado o fue alterado. Vuelva a iniciar sesión por favor'}
       </Text>
 
       <Link to="/">

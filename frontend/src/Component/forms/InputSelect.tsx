@@ -6,8 +6,8 @@ import {
   ListItem,
   Select,
   UnorderedList,
-} from "@chakra-ui/react";
-import { useField } from "formik";
+} from '@chakra-ui/react';
+import { useField } from 'formik';
 
 export interface InputProps {
   name: string;
@@ -27,7 +27,7 @@ const InputSelect = ({ label, help, options, ...props }: InputProps) => {
     <FormControl isInvalid={!!meta.error && meta.touched}>
       <FormLabel>{label || props.placeholder || field.name}</FormLabel>
 
-      <Select variant="filled" value={value || ""} {...fieldRest} {...props}>
+      <Select variant="filled" value={value || ''} {...fieldRest} {...props}>
         {options.map((op) => (
           <option value={op.value} key={op.value}>
             {op.name}

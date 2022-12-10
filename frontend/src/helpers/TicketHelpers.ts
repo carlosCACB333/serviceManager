@@ -1,5 +1,5 @@
-import moment from "moment";
-import { TicketInterface } from "../interfaces/serviceInterface";
+import moment from 'moment';
+import { TicketInterface } from '../interfaces/serviceInterface';
 
 export const getStatsTicket = (ticket: TicketInterface) => {
   let costo = 0;
@@ -18,10 +18,7 @@ export const getStatsTicket = (ticket: TicketInterface) => {
   return { cantidad, costo, adelanto, estado };
 };
 
-export const getProgessBarValue = (
-  first: Date | moment.MomentInput,
-  last: Date | moment.MomentInput
-) => {
+export const getProgessBarValue = (first: Date | moment.MomentInput, last: Date | moment.MomentInput) => {
   const diff = moment(last).diff(moment(first));
   const advance = moment().diff(moment(first));
   const resp = (advance / diff) * 100;

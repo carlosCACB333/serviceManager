@@ -1,28 +1,20 @@
-import { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
+import { Box, Heading, useTheme } from '@chakra-ui/react';
 import {
+  CategoryScale,
   Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
   Legend,
-} from "chart.js";
-import { Card } from "../utils/Card";
-import { charOption, monthLabel } from "../../helpers/drawChart";
-import { Heading, Box, useTheme } from "@chakra-ui/react";
-
-ChartJS.register(
-  CategoryScale,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend
-);
+} from 'chart.js';
+import { useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
+import { charOption, monthLabel } from '../../helpers/drawChart';
+import { Card } from '../utils/Card';
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 interface DataInterface {
   labels: string[];
@@ -43,7 +35,7 @@ interface Props {
   color?: string;
 }
 
-const SalesChar = ({ report, title = "Reporte", color = "" }: Props) => {
+const SalesChar = ({ report, title = 'Reporte', color = '' }: Props) => {
   const [data, setData] = useState<DataInterface>();
   const theme = useTheme();
 
@@ -52,7 +44,7 @@ const SalesChar = ({ report, title = "Reporte", color = "" }: Props) => {
       labels: monthLabel,
       datasets: [
         {
-          label: "  total  ",
+          label: '  total  ',
           data: monthLabel.map((month, idx) => report[idx + 1] ?? 0),
           borderColor: color ? color : theme.colors.blue[500],
           backgroundColor: color ? color : theme.colors.blue[500],

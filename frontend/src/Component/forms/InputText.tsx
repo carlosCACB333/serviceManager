@@ -8,8 +8,8 @@ import {
   NumberInput,
   NumberInputField,
   UnorderedList,
-} from "@chakra-ui/react";
-import { useField } from "formik";
+} from '@chakra-ui/react';
+import { useField } from 'formik';
 
 export interface InputProps {
   name: string;
@@ -27,12 +27,12 @@ const InputText = ({ label, help, ...props }: InputProps) => {
   return (
     <FormControl isInvalid={!!meta.error && meta.touched}>
       <FormLabel>{label || props.placeholder || field.name}</FormLabel>
-      {props.type === "number" ? (
-        <NumberInput variant="filled" value={value || ""} {...props}>
+      {props.type === 'number' ? (
+        <NumberInput variant="filled" value={value || ''} {...props}>
           <NumberInputField {...fieldRest} />
         </NumberInput>
       ) : (
-        <Input variant="filled" value={value || ""} {...fieldRest} {...props} />
+        <Input variant="filled" value={value || ''} {...fieldRest} {...props} />
       )}
       {meta.error && meta.touched ? (
         <FormErrorMessage>

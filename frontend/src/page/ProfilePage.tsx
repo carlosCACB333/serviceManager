@@ -1,26 +1,22 @@
-import { useEffect, useState } from "react";
-import { Box, Flex, Heading, List, Progress, Text } from "@chakra-ui/react";
-import { Card } from "../Component/utils/Card";
-import {
-  ClientInterface,
-  TicketInterface,
-} from "../interfaces/serviceInterface";
-import { useParams } from "react-router-dom";
-import { getClientApi, getClientTicketApi } from "./../helpers/api";
-import TicketTable from "../Component/services/TicketTable";
-import ClientUpdate from "../Component/clients/ClientUpdate";
-import { updateClientApi } from "../helpers/api";
-import { useToast } from "@chakra-ui/react";
-import { FormikHelpers } from "formik";
-import BackgroundProfile from "../Component/auth/BacgroundProfile";
-import ProfeItem from "../Component/auth/ProfileItem";
-import Rating from "../Component/clients/Rating";
-import { FaListOl, FaUserEdit } from "react-icons/fa";
-import NotFound from "../Component/utils/NotFound";
+import { Box, Flex, Heading, List, Progress, Text, useToast } from '@chakra-ui/react';
+import { FormikHelpers } from 'formik';
+import { useEffect, useState } from 'react';
+import { FaListOl, FaUserEdit } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
+import BackgroundProfile from '../Component/auth/BacgroundProfile';
+import ProfeItem from '../Component/auth/ProfileItem';
+import ClientUpdate from '../Component/clients/ClientUpdate';
+import Rating from '../Component/clients/Rating';
+import TicketTable from '../Component/services/TicketTable';
+import { Card } from '../Component/utils/Card';
+import NotFound from '../Component/utils/NotFound';
+import { updateClientApi } from '../helpers/api';
+import { ClientInterface, TicketInterface } from '../interfaces/serviceInterface';
+import { getClientApi, getClientTicketApi } from './../helpers/api';
 
 const options = [
-  { value: 1, name: "Lista de ventas", icon: FaListOl },
-  { value: 2, name: "Actualizar datos", icon: FaUserEdit },
+  { value: 1, name: 'Lista de ventas', icon: FaListOl },
+  { value: 2, name: 'Actualizar datos', icon: FaUserEdit },
 ];
 
 const ProfilePage = () => {
@@ -31,7 +27,7 @@ const ProfilePage = () => {
   const [tickets, setTickets] = useState<TicketInterface[]>([]);
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (id) {
@@ -49,18 +45,15 @@ const ProfilePage = () => {
     }
   }, [id]);
 
-  const updateClient = (
-    data: ClientInterface,
-    action: FormikHelpers<ClientInterface>
-  ) => {
+  const updateClient = (data: ClientInterface, action: FormikHelpers<ClientInterface>) => {
     updateClientApi(data.id || 0, data)
       .then((res) => {
         setClient(res.data);
         toast({
-          position: "top-end",
-          status: "success",
-          title: "Actualizado",
-          description: "El Cliente a sido actualizado  con éxito",
+          position: 'top-right',
+          status: 'success',
+          title: 'Actualizado',
+          description: 'El Cliente a sido actualizado  con éxito',
           isClosable: true,
         });
       })
@@ -80,10 +73,10 @@ const ProfilePage = () => {
         options={options}
         setBtnOption={setBtnOption}
         btnOption={btnOption}
-        name={client?.first_name + " " + client?.last_name}
+        name={client?.first_name + ' ' + client?.last_name}
         email={client?.email}
       />
-      <Flex gap="2" direction={{ base: "column-reverse", lg: "row" }}>
+      <Flex gap="2" direction={{ base: 'column-reverse', lg: 'row' }}>
         <Card>
           <Box p="12px 5px" mb="12px">
             <Text fontSize="lg" fontWeight="bold">
@@ -111,16 +104,10 @@ const ProfilePage = () => {
         </Card>
 
         <Flex flex={1} justify="center">
-          <Card
-            className="scroll"
-            overscrollX="auto"
-            w={{ base: "full", lg: "auto" }}
-          >
+          <Card className="scroll" overscrollX="auto" w={{ base: 'full', lg: 'auto' }}>
             <>
               {btnOption === 1 && <TicketTable tickets={tickets} size="sm" />}
-              {btnOption === 2 && (
-                <ClientUpdate values={client} updateClient={updateClient} />
-              )}
+              {btnOption === 2 && <ClientUpdate values={client} updateClient={updateClient} />}
             </>
           </Card>
         </Flex>

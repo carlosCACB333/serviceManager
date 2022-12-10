@@ -1,4 +1,4 @@
-import { MomentInput } from "moment";
+import { MomentInput } from 'moment';
 
 export interface UserInterface {
   id: number;
@@ -16,13 +16,13 @@ export interface UserInterface {
 
 export const UserInit: UserInterface = {
   id: -1,
-  username: "",
-  password: "",
-  password2: "",
-  first_name: "",
-  last_name: "",
-  email: "",
-  rol: "",
+  username: '',
+  password: '',
+  password2: '',
+  first_name: '',
+  last_name: '',
+  email: '',
+  rol: '',
   last_login: undefined,
   is_active: true,
   date_joined: undefined,

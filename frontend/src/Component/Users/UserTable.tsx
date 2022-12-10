@@ -16,15 +16,15 @@ import {
   Th,
   Thead,
   Tr,
+  useColorModeValue,
   useToast,
-} from "@chakra-ui/react";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaEdit, FaRemoveFormat } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import { startDeleteUser, startUserSetActive } from "../../actions/userAction";
-import { UserInterface } from "../../interfaces/userInterfaces";
-import Confirm from "../utils/Confirm";
-import { useColorModeValue } from "@chakra-ui/react";
+} from '@chakra-ui/react';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { FaEdit, FaRemoveFormat } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { startDeleteUser, startUserSetActive } from '../../actions/userAction';
+import { UserInterface } from '../../interfaces/userInterfaces';
+import Confirm from '../utils/Confirm';
 
 interface Props {
   users: UserInterface[];
@@ -60,17 +60,17 @@ const TableItem = ({ user }: { user: UserInterface }) => {
   const toast = useToast();
 
   const handleSelect = (id: number) => {
-    dispatch({ type: "userOnSelected", payload: id });
+    dispatch({ type: 'userOnSelected', payload: id });
   };
   return (
     <Tr
       cursor="pointer"
       onClick={() => handleSelect(user.id)}
-      _hover={{ backgroundColor: useColorModeValue("gray.100", "gray.700") }}
+      _hover={{ backgroundColor: useColorModeValue('gray.100', 'gray.700') }}
     >
       <Td>
         <Flex align="center">
-          <Avatar name={user.first_name + " " + user.last_name} />
+          <Avatar name={user.first_name + ' ' + user.last_name} />
           <Box>
             <Text ms={2} fontWeight="bold">
               {user.username}
@@ -88,23 +88,19 @@ const TableItem = ({ user }: { user: UserInterface }) => {
         <Switch
           isChecked={user.is_active}
           checked={user.is_active}
-          onChange={() => dispatch(startUserSetActive(user.id))}
+          onChange={() => dispatch(startUserSetActive(user.id) as any)}
         />
       </Td>
       <Td onClick={(e) => e.stopPropagation()}>
         <Menu>
-          <MenuButton
-            as={IconButton}
-            icon={<BsThreeDotsVertical />}
-            variant="ghost"
-          ></MenuButton>
+          <MenuButton as={IconButton} icon={<BsThreeDotsVertical />} variant="ghost"></MenuButton>
           <MenuList>
             <MenuItem icon={<FaEdit />} onClick={() => handleSelect(user.id)}>
               Editar
             </MenuItem>
 
             <Confirm
-              onClick={() => dispatch(startDeleteUser(user.id, toast))}
+              onClick={() => dispatch(startDeleteUser(user.id, toast) as any)}
               type="menuItem"
               title="Eliminar"
               desc="Esta acción es irreversible.¿Deseas eliminar el usuario?"

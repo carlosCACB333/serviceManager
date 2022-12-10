@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -21,48 +20,41 @@ import {
   Stack,
   Text,
   useDisclosure,
-} from "@chakra-ui/react";
-import { Card } from "../Component/utils/Card";
-import { Link, useNavigate, useParams } from "react-router-dom";
+  useToast,
+} from '@chakra-ui/react';
+import { Form, Formik, FormikHelpers } from 'formik';
+import moment from 'moment';
+import 'moment/locale/es';
+import { useEffect, useState } from 'react';
+import { AiOutlineFundProjectionScreen } from 'react-icons/ai';
+import { BsFillArrowUpRightSquareFill } from 'react-icons/bs';
+import { FaCheckCircle, FaDirections, FaDollarSign, FaTimesCircle } from 'react-icons/fa';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import AdvanceForm from '../Component/services/AdvanceForm';
+import AdvanceTable from '../Component/services/AdvanceTable';
+import ServiceTable from '../Component/services/ServiceTable';
+import StatsCard2 from '../Component/services/StactsCard2';
+import { Card } from '../Component/utils/Card';
+import Confirm from '../Component/utils/Confirm';
+import NotFound from '../Component/utils/NotFound';
 import {
   addAdvanceApi,
   CloseProjectApi,
   deleteTicketApi,
+  finishProjectApi,
   getDetailTicketApi,
   removeAdvanceApi,
   removeServiceApi,
-} from "../helpers/api";
-import {
-  TicketInterface,
-  PaymentInterface,
-} from "../interfaces/serviceInterface";
-import {
-  FaCheckCircle,
-  FaDirections,
-  FaDollarSign,
-  FaTimesCircle,
-} from "react-icons/fa";
-import moment from "moment";
-import "moment/locale/es";
-import ServiceTable from "../Component/services/ServiceTable";
-import AdvanceTable from "../Component/services/AdvanceTable";
-import AdvanceForm from "../Component/services/AdvanceForm";
-import { Form, Formik, FormikHelpers } from "formik";
-import { useToast } from "@chakra-ui/react";
-import NotFound from "../Component/utils/NotFound";
-import { ServiceInterface } from "../interfaces/serviceInterface";
-import { updateServiceApi, finishProjectApi } from "../helpers/api";
-import { getProgessBarValue, getStatsTicket } from "../helpers/TicketHelpers";
-import { paymentValidator } from "../validators/formValidator";
-import StatsCard2 from "../Component/services/StactsCard2";
-import { AiOutlineFundProjectionScreen } from "react-icons/ai";
-import Confirm from "../Component/utils/Confirm";
-import { BsFillArrowUpRightSquareFill } from "react-icons/bs";
+  updateServiceApi,
+} from '../helpers/api';
+import { getProgessBarValue, getStatsTicket } from '../helpers/TicketHelpers';
+import { PaymentInterface, ServiceInterface, TicketInterface } from '../interfaces/serviceInterface';
+import { paymentValidator } from '../validators/formValidator';
 
-moment.locale("es");
+moment.locale('es');
 
 const ServiceDetailPage = () => {
-  const { id = "" } = useParams();
+  const { id = '' } = useParams();
   const [ticket, setTicket] = useState<TicketInterface>({} as TicketInterface);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
@@ -78,10 +70,7 @@ const ServiceDetailPage = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  const handleAddSubmit = (
-    values: PaymentInterface,
-    action: FormikHelpers<PaymentInterface>
-  ) => {
+  const handleAddSubmit = (values: PaymentInterface, action: FormikHelpers<PaymentInterface>) => {
     addAdvanceApi(values)
       .then((res) => {
         setTicket((state) => ({
@@ -90,10 +79,10 @@ const ServiceDetailPage = () => {
         }));
         onToggle();
         toas({
-          position: "top-end",
-          status: "success",
-          title: "Registrado",
-          description: "Adelanto Registrado",
+          position: 'top-right',
+          status: 'success',
+          title: 'Registrado',
+          description: 'Adelanto Registrado',
           isClosable: true,
         });
       })
@@ -108,10 +97,10 @@ const ServiceDetailPage = () => {
           payments: state.payments.filter((ad) => ad.id !== id),
         }));
         toas({
-          position: "top-end",
-          status: "error",
-          title: "Eliminado",
-          description: "Adelanto removido",
+          position: 'top-right',
+          status: 'error',
+          title: 'Eliminado',
+          description: 'Adelanto removido',
           isClosable: true,
         });
       })
@@ -126,33 +115,28 @@ const ServiceDetailPage = () => {
           services: state.services.filter((serv) => serv.id !== id),
         }));
         toas({
-          position: "top-end",
-          status: "error",
-          title: "Eliminado",
-          description: "Servicio removido",
+          position: 'top-right',
+          status: 'error',
+          title: 'Eliminado',
+          description: 'Servicio removido',
           isClosable: true,
         });
       })
       .catch((err) => console.log(err.resonse));
   };
 
-  const updateService = (
-    data: ServiceInterface,
-    action: FormikHelpers<ServiceInterface>
-  ) => {
+  const updateService = (data: ServiceInterface, action: FormikHelpers<ServiceInterface>) => {
     return updateServiceApi(data.id, data)
       .then((res) => {
         setTicket((state) => ({
           ...state,
-          services: state.services.map((serv) =>
-            serv.id === res.data.id ? res.data : serv
-          ),
+          services: state.services.map((serv) => (serv.id === res.data.id ? res.data : serv)),
         }));
         toas({
-          position: "top-end",
-          status: "success",
-          title: "Actualizado",
-          description: "Servicio actualizado",
+          position: 'top-right',
+          status: 'success',
+          title: 'Actualizado',
+          description: 'Servicio actualizado',
           isClosable: true,
         });
 
@@ -171,10 +155,10 @@ const ServiceDetailPage = () => {
       .then((res) => {
         setTicket((state) => ({ ...state, ...res.data.ticket }));
         toas({
-          position: "top-end",
-          status: "success",
-          title: "Finalizado",
-          description: "Proyecto finalizado",
+          position: 'top-right',
+          status: 'success',
+          title: 'Finalizado',
+          description: 'Proyecto finalizado',
           isClosable: true,
         });
       })
@@ -186,10 +170,10 @@ const ServiceDetailPage = () => {
       .then((res) => {
         setTicket(res.data.ticket);
         toas({
-          position: "top-end",
-          status: "success",
-          title: "Cerrado",
-          description: "El proyecto a sido cerrado con éxito",
+          position: 'top-right',
+          status: 'success',
+          title: 'Cerrado',
+          description: 'El proyecto a sido cerrado con éxito',
           isClosable: true,
         });
       })
@@ -200,14 +184,14 @@ const ServiceDetailPage = () => {
     deleteTicketApi(id)
       .then((res) => {
         toas({
-          position: "top-end",
-          status: "success",
-          title: "Eliminado",
-          description: "El ticket a sido eliminado con éxito",
+          position: 'top-right',
+          status: 'success',
+          title: 'Eliminado',
+          description: 'El ticket a sido eliminado con éxito',
           isClosable: true,
         });
 
-        navigate("/service/list");
+        navigate('/service/list');
       })
       .catch((err) => console.log(err.response));
   };
@@ -215,45 +199,26 @@ const ServiceDetailPage = () => {
   if (error) return <NotFound title={error} />;
   if (loading) return <Progress size="xs" isIndeterminate w="full" />;
   const { cantidad, costo, adelanto, estado } = getStatsTicket(ticket);
-  const warranty = getProgessBarValue(
-    ticket.start_warranty,
-    ticket.end_warranty
-  );
+  const warranty = getProgessBarValue(ticket.start_warranty, ticket.end_warranty);
   return (
     <Grid gap="2" templateColumns="repeat(6, 1fr)">
       <GridItem colSpan={6}>
         <SimpleGrid columns={[1, null, 2, 4]} spacing={3}>
           <Card p="2" border="1px">
-            <StatsCard2
-              title="Costo total"
-              stat={"S/ " + costo}
-              icon={<FaDollarSign size={20} />}
-            />
+            <StatsCard2 title="Costo total" stat={'S/ ' + costo} icon={<FaDollarSign size={20} />} />
           </Card>
           <Card p="2" border="1px">
             <StatsCard2
               title="Estado pago"
-              stat={estado <= 0 ? "CANCELADO" : "Debe S/ " + estado}
-              icon={
-                estado <= 0 ? (
-                  <FaCheckCircle size={20} />
-                ) : (
-                  <FaTimesCircle size={20} />
-                )
-              }
+              stat={estado <= 0 ? 'CANCELADO' : 'Debe S/ ' + estado}
+              icon={estado <= 0 ? <FaCheckCircle size={20} /> : <FaTimesCircle size={20} />}
             />
           </Card>
           <Card p="2" border="1px">
             <StatsCard2
               title="Estado entrega"
-              stat={ticket.finish_date ? "Entregado" : "NO ENTREGADO"}
-              icon={
-                ticket.finish_date ? (
-                  <FaCheckCircle size={20} />
-                ) : (
-                  <FaTimesCircle size={20} />
-                )
-              }
+              stat={ticket.finish_date ? 'Entregado' : 'NO ENTREGADO'}
+              icon={ticket.finish_date ? <FaCheckCircle size={20} /> : <FaTimesCircle size={20} />}
             />
           </Card>
 
@@ -273,58 +238,38 @@ const ServiceDetailPage = () => {
           </Heading>
 
           <List spacing={3}>
-            <ListItm
-              name="Fecha de contrato"
-              value={moment(ticket?.date).format("LLLL")}
-            />
-            <ListItm
-              name="Entrega prevista "
-              value={moment(ticket?.end_date).format("LLLL")}
-            />
+            <ListItm name="Fecha de contrato" value={moment(ticket?.date).format('LLLL')} />
+            <ListItm name="Entrega prevista " value={moment(ticket?.end_date).format('LLLL')} />
             <ListItm
               name="Estado de entrega"
-              value={
-                ticket.finish_date
-                  ? "Entregado el " + moment(ticket.finish_date).format("LLLL")
-                  : "NO ENTREGADO"
-              }
+              value={ticket.finish_date ? 'Entregado el ' + moment(ticket.finish_date).format('LLLL') : 'NO ENTREGADO'}
             />
-            <ListItm
-              name="Estado de pago"
-              value={estado <= 0 ? "CANCELADO" : "Debe S/ " + estado}
-            />
+            <ListItm name="Estado de pago" value={estado <= 0 ? 'CANCELADO' : 'Debe S/ ' + estado} />
 
-            <ListItm name="Costo total" value={"S/ " + costo} />
-            <ListItm name="Adelanto" value={"S/ " + adelanto} />
+            <ListItm name="Costo total" value={'S/ ' + costo} />
+            <ListItm name="Adelanto" value={'S/ ' + adelanto} />
             <ListItm name="Cantidad de proyectos" value={cantidad} />
 
             {ticket.start_warranty ? (
               <>
                 <ListItm
                   name="Garantía"
-                  value={
-                    moment(ticket.start_warranty).format("L") +
-                    " - " +
-                    moment(ticket.end_warranty).format("L")
-                  }
+                  value={moment(ticket.start_warranty).format('L') + ' - ' + moment(ticket.end_warranty).format('L')}
                 />
-                {Math.floor(warranty) + "% - ("}
-                {moment(ticket.end_warranty).fromNow() + ")"}
+                {Math.floor(warranty) + '% - ('}
+                {moment(ticket.end_warranty).fromNow() + ')'}
                 <Progress value={warranty} size="xs" rounded={5} />
               </>
             ) : (
-              "Aun no inicia"
+              'Aun no inicia'
             )}
 
             <ListItm
               name="Cliente"
               value={
-                <Link to={"/profile/" + ticket.client.id}>
-                  <Button
-                    variant="link"
-                    rightIcon={<BsFillArrowUpRightSquareFill />}
-                  >
-                    {ticket?.client.first_name + " " + ticket?.client.last_name}
+                <Link to={'/profile/' + ticket.client.id}>
+                  <Button variant="link" rightIcon={<BsFillArrowUpRightSquareFill />}>
+                    {ticket?.client.first_name + ' ' + ticket?.client.last_name}
                   </Button>
                 </Link>
               }
@@ -352,11 +297,7 @@ const ServiceDetailPage = () => {
           <Stack>
             {ticket?.payments && ticket.payments.length > 0 ? (
               <Box className="scroll">
-                <AdvanceTable
-                  editable={!ticket.is_closed}
-                  advances={ticket?.payments}
-                  removeAdvance={removeAdvance}
-                />
+                <AdvanceTable editable={!ticket.is_closed} advances={ticket?.payments} removeAdvance={removeAdvance} />
               </Box>
             ) : (
               <Text color="gray.500" ms={10}>
@@ -378,9 +319,9 @@ const ServiceDetailPage = () => {
                 <Formik
                   initialValues={{
                     id: 0,
-                    detail: "",
+                    detail: '',
                     ticket: ticket.id,
-                    amount: "",
+                    amount: '',
                   }}
                   onSubmit={handleAddSubmit}
                   validationSchema={paymentValidator}
@@ -408,12 +349,7 @@ const ServiceDetailPage = () => {
       </GridItem>
 
       <GridItem colSpan={6}>
-        <Flex
-          m="2"
-          gap={3}
-          direction={{ base: "column", lg: "row" }}
-          justify="end"
-        >
+        <Flex m="2" gap={3} direction={{ base: 'column', lg: 'row' }} justify="end">
           {!ticket.finish_date && (
             <Confirm
               title="Entregar Proyecto"
@@ -453,15 +389,15 @@ const ServiceDetailPage = () => {
   );
 };
 
-const ListItm = ({ name = "", value = "" }: { name: any; value: any }) => {
+const ListItm = ({ name = '', value = '' }: { name: any; value: any }) => {
   return (
     <ListItem>
       <ListIcon as={FaDirections} color="blue.500" />
-      <Text color="gray.500" fontWeight="bold" d="inline">
+      <Text color="gray.500" fontWeight="bold" display="inline">
         {name}
       </Text>
       &nbsp;
-      <Text color="gray.500" d="inline">
+      <Text color="gray.500" display="inline">
         {value}
       </Text>
     </ListItem>

@@ -1,4 +1,7 @@
-import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
+import { VStack } from '@chakra-ui/layout';
+import { Box, Flex, useMediaQuery } from '@chakra-ui/react';
+import { useContext, useEffect, useState } from 'react';
+import { Provider } from 'react-redux';
 import {
   // BrowserRouter,
   HashRouter,
@@ -6,27 +9,24 @@ import {
   Outlet,
   Route,
   Routes,
-} from "react-router-dom";
-import AuthPage from "../page/AuthPage";
-import HomePage from "../page/HomePage";
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../contexts/AuthContext";
-import Loading from "../Component/utils/Loading";
-import SideBar from "./SideBar";
-import ServiceAddPage from "../page/ServiceAddPage";
-import ServiceListPage from "../page/ServiceListPage";
-import NavBar from "./NavBar";
-import { VStack } from "@chakra-ui/layout";
-import ServiceDetailPage from "../page/ServiceDetailPage";
-import ClientListPage from "../page/ClientListPage";
-import ProfilePage from "../page/ProfilePage";
-import ProfileUserPage from "../page/ProfileUserPage";
-import NotFound from "../Component/utils/NotFound";
-import UserPage from "../page/UserPage";
-import { Provider } from "react-redux";
-import { store } from "../store/store";
-import Forbidden from "../Component/utils/Forbidden";
-import Unauthorized from "../Component/utils/Unauthorized";
+} from 'react-router-dom';
+import Forbidden from '../Component/utils/Forbidden';
+import Loading from '../Component/utils/Loading';
+import NotFound from '../Component/utils/NotFound';
+import Unauthorized from '../Component/utils/Unauthorized';
+import { AuthContext } from '../contexts/AuthContext';
+import AuthPage from '../page/AuthPage';
+import ClientListPage from '../page/ClientListPage';
+import HomePage from '../page/HomePage';
+import ProfilePage from '../page/ProfilePage';
+import ProfileUserPage from '../page/ProfileUserPage';
+import ServiceAddPage from '../page/ServiceAddPage';
+import ServiceDetailPage from '../page/ServiceDetailPage';
+import ServiceListPage from '../page/ServiceListPage';
+import UserPage from '../page/UserPage';
+import { store } from '../store/store';
+import NavBar from './NavBar';
+import SideBar from './SideBar';
 
 const AppRouter = () => {
   const { auth, checkToken } = useContext(AuthContext);
@@ -95,7 +95,7 @@ const AppRouter = () => {
 };
 
 const HomeLayout = () => {
-  const [isLarge] = useMediaQuery("(min-width: 62em)");
+  const [isLarge] = useMediaQuery('(min-width: 62em)');
   const [show, setShow] = useState(isLarge);
   return (
     <Flex gap="1">
@@ -125,7 +125,7 @@ const AdminUser = ({ children }: { children: JSX.Element }) => {
     auth: { user },
   } = useContext(AuthContext);
 
-  return user.rol === "Admin" ? children : <Navigate to="forbidden" />;
+  return user.rol === 'Admin' ? children : <Navigate to="forbidden" />;
 };
 
 export default AppRouter;

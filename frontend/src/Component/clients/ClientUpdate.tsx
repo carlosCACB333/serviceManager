@@ -1,22 +1,13 @@
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  Box,
-  SimpleGrid,
-} from "@chakra-ui/react";
-import ClientForm from "./ClientForm";
-import { ClientInterface } from "../../interfaces/serviceInterface";
-import { Form, Formik, FormikHelpers } from "formik";
-import Button from "../forms/Button";
-import { clientValidator } from "../../validators/formValidator";
+import { Alert, AlertIcon, AlertTitle, Box, SimpleGrid } from '@chakra-ui/react';
+import { Form, Formik, FormikHelpers } from 'formik';
+import { ClientInterface } from '../../interfaces/serviceInterface';
+import { clientValidator } from '../../validators/formValidator';
+import Button from '../forms/Button';
+import ClientForm from './ClientForm';
 
 interface Props {
   values: ClientInterface;
-  updateClient: (
-    data: ClientInterface,
-    action: FormikHelpers<ClientInterface>
-  ) => void;
+  updateClient: (data: ClientInterface, action: FormikHelpers<ClientInterface>) => void;
 }
 
 const ClientUpdate = ({ values, updateClient }: Props) => {
@@ -32,9 +23,11 @@ const ClientUpdate = ({ values, updateClient }: Props) => {
             <Box>
               {errors.non_field_errors && (
                 <Alert status="error">
-                  <AlertIcon />
-                  <AlertTitle mr={2}>Error</AlertTitle>
-                  {errors?.non_field_errors}
+                  <>
+                    <AlertIcon />
+                    <AlertTitle mr={2}>Error</AlertTitle>
+                    {errors?.non_field_errors}
+                  </>
                 </Alert>
               )}
             </Box>

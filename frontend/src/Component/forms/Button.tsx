@@ -1,9 +1,9 @@
-import { Button as Btn } from "@chakra-ui/react";
+import { Button as Btn } from '@chakra-ui/react';
 
 interface Props {
   title: string;
-  type?: "submit" | "button";
-  variant?: "ghost" | "link" | "outline" | "solid" | "unstyled";
+  type?: 'submit' | 'button';
+  variant?: 'ghost' | 'link' | 'outline' | 'solid' | 'unstyled';
   my?: number;
   bgGradient?: string;
   disabled?: boolean;
@@ -12,11 +12,11 @@ interface Props {
 }
 const Button = ({
   title,
-  type = "button",
+  type = 'button',
   my = 5,
-  bgGradient = "linear(to-r, red.400,pink.400)",
+  bgGradient = 'linear(to-r, red.400,pink.400)',
   disabled = false,
-  variant = "solid",
+  variant = 'solid',
   onClick,
   ...rest
 }: Props) => {
@@ -24,13 +24,13 @@ const Button = ({
     <Btn
       variant={variant}
       type={type}
-      fontFamily={"heading"}
+      fontFamily={'heading'}
       mt={my}
-      w={"full"}
+      w={'full'}
       bgGradient={bgGradient}
-      color={"white"}
+      color={'white'}
       _hover={{
-        boxShadow: "xl",
+        boxShadow: 'xl',
       }}
       onClick={() => onClick && onClick()}
       disabled={disabled}

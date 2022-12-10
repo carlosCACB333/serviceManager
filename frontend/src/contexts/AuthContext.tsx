@@ -1,11 +1,11 @@
-import axios from "axios";
-import React, { createContext, useCallback, useState } from "react";
-import { AuthInterface } from "../interfaces/authInterface";
-import { UserInterface } from "../interfaces/userInterfaces";
-const baseURL = process.env.REACT_APP_API_URL + "/api";
+import axios from 'axios';
+import React, { createContext, useCallback, useState } from 'react';
+import { AuthInterface } from '../interfaces/authInterface';
+import { UserInterface } from '../interfaces/userInterfaces';
+const baseURL = process.env.REACT_APP_API_URL + '/api';
 
 const initial = {
-  token: "",
+  token: '',
   user: {} as UserInterface,
   checking: true,
 };
@@ -23,9 +23,9 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const checkToken = useCallback(() => {
     setAuth((state) => ({ ...state, checking: true }));
     axios
-      .post(baseURL + "/auth/checkToken", null, {
+      .post(baseURL + '/auth/checkToken', null, {
         headers: {
-          Authorization: `token ${localStorage.getItem("token")}`,
+          Authorization: `token ${localStorage.getItem('token')}`,
         },
       })
       .then((resp) => {
@@ -42,14 +42,10 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
   const authLogout = useCallback(() => {
     setAuth({ ...initial, checking: false });
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ auth, checkToken, setAuth, authLogout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ auth, checkToken, setAuth, authLogout }}>{children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

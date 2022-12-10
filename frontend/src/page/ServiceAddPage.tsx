@@ -1,66 +1,53 @@
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  Box,
-  Flex,
-  Heading,
-  Progress,
-  useToast,
-} from "@chakra-ui/react";
-import { Form, Formik, FormikHelpers, FormikProps } from "formik";
-import moment from "moment";
-import { useEffect, useState, Dispatch, SetStateAction } from "react";
-import ClientForm from "../Component/clients/ClientForm";
-import Button from "../Component/forms/Button";
-import ServiceForm from "../Component/services/ServiceForm";
-import ServiceList from "../Component/services/ServiceList";
-import { addServiceValidator } from "../validators/formValidator";
-import { Card } from "../Component/utils/Card";
-import { createServiceApi, getClientApi } from "../helpers/api";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  ClientInterface,
-  PaymentInterface,
-  ServiceInterface,
-} from "../interfaces/serviceInterface";
-import NotFound from "../Component/utils/NotFound";
+import { Alert, AlertIcon, AlertTitle, Box, Flex, Heading, Progress, useToast } from '@chakra-ui/react';
+import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
+import moment from 'moment';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import ClientForm from '../Component/clients/ClientForm';
+import Button from '../Component/forms/Button';
+import ServiceForm from '../Component/services/ServiceForm';
+import ServiceList from '../Component/services/ServiceList';
+import { Card } from '../Component/utils/Card';
+import NotFound from '../Component/utils/NotFound';
+import { createServiceApi, getClientApi } from '../helpers/api';
+import { ClientInterface, PaymentInterface, ServiceInterface } from '../interfaces/serviceInterface';
+import { addServiceValidator } from '../validators/formValidator';
 
-moment.locale("es");
+moment.locale('es');
 // const date = moment().format("YYYY-MM-DDTHH:mm");
 
 export const serviceInit: ServiceInterface = {
   id: 0,
-  name: "",
-  address: "",
-  size: "",
-  description: "",
-  cost: "",
+  name: '',
+  address: '',
+  size: '',
+  description: '',
+  cost: '',
   amount: 1,
 };
 
 export const clientInit: ClientInterface = {
   // id: 0 ,
-  first_name: "",
-  last_name: "",
-  address: "",
-  reference: "",
-  email: "",
-  company: "",
-  phone: "",
+  first_name: '',
+  last_name: '',
+  address: '',
+  reference: '',
+  email: '',
+  company: '',
+  phone: '',
 };
 
 const paymentInit: PaymentInterface = {
   id: 0,
-  amount: "",
-  detail: "",
+  amount: '',
+  detail: '',
 };
 
 export const formiInit = {
   client: clientInit,
   services: serviceInit,
   payments: paymentInit,
-  end_date: "",
+  end_date: '',
 };
 
 const ServiceAddPage = () => {
@@ -68,23 +55,20 @@ const ServiceAddPage = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
-  const submit = (
-    values: typeof formiInit,
-    action: FormikHelpers<typeof formiInit>
-  ) => {
+  const submit = (values: typeof formiInit, action: FormikHelpers<typeof formiInit>) => {
     if (services.length > 0) {
       const data = { ...values, services: services };
       console.log(data);
       createServiceApi(data)
         .then((res) => {
           toast({
-            title: "Servicio creado",
-            status: "success",
-            description: "El servicio fue creado con éxito",
-            position: "top-end",
+            title: 'Servicio creado',
+            status: 'success',
+            description: 'El servicio fue creado con éxito',
+            position: 'top-right',
             isClosable: true,
           });
-          navigate("/ticket/" + res.data.id);
+          navigate('/ticket/' + res.data.id);
         })
         .catch((err) => {
           console.log(err.response);
@@ -94,10 +78,10 @@ const ServiceAddPage = () => {
         });
     } else {
       toast({
-        title: "Error",
-        status: "error",
-        description: "No  has agregado ningún servicio",
-        position: "top-end",
+        title: 'Error',
+        status: 'error',
+        description: 'No  has agregado ningún servicio',
+        position: 'top-right',
         isClosable: true,
       });
     }
@@ -105,18 +89,8 @@ const ServiceAddPage = () => {
 
   return (
     <Box w="full">
-      <Formik
-        initialValues={formiInit}
-        onSubmit={submit}
-        validationSchema={addServiceValidator}
-      >
-        {(props) => (
-          <FormikChild
-            {...props}
-            services={services}
-            setServices={setServices}
-          />
-        )}
+      <Formik initialValues={formiInit} onSubmit={submit} validationSchema={addServiceValidator}>
+        {(props) => <FormikChild {...props} services={services} setServices={setServices} />}
       </Formik>
     </Box>
   );
@@ -138,7 +112,7 @@ const FormikChild = ({
   setTouched,
 }: FormikChildProps) => {
   const param = useParams();
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   useEffect(() => {
@@ -166,24 +140,24 @@ const FormikChild = ({
     let err: any = {};
 
     if (!values.services.name.trim()) {
-      err.name = "Este campo es requerido";
+      err.name = 'Este campo es requerido';
     }
 
     if (!values.services.amount) {
-      err.amount = "Este campo es requerido";
+      err.amount = 'Este campo es requerido';
     }
     if (!values.services.cost.trim()) {
-      err.cost = "Este campo es requerido";
+      err.cost = 'Este campo es requerido';
     }
 
     if (Object.keys(err).length === 0) {
       setServices((state) => [...state, { ...values.services }]);
       setValues({ ...values, services: serviceInit });
       toast({
-        title: "Servicio agregado",
-        status: "success",
-        description: "El servicio se agregó a su lista",
-        position: "top-end",
+        title: 'Servicio agregado',
+        status: 'success',
+        description: 'El servicio se agregó a su lista',
+        position: 'top-right',
         isClosable: true,
       });
     } else {
@@ -203,13 +177,8 @@ const FormikChild = ({
   return (
     <Form>
       {/* <Heading mb="5">Registro de venta de servicio</Heading> */}
-      <Flex gap={2} direction={{ base: "column", lg: "row" }}>
-        <Flex
-          flex={1}
-          gap="1"
-          direction={{ base: "column", xl: "row" }}
-          justify="center"
-        >
+      <Flex gap={2} direction={{ base: 'column', lg: 'row' }}>
+        <Flex flex={1} gap="1" direction={{ base: 'column', xl: 'row' }} justify="center">
           {!param.id && (
             <Card>
               <Heading size="lg" mb={3}>
@@ -219,33 +188,27 @@ const FormikChild = ({
               <Box>
                 {errors.client?.non_field_errors && (
                   <Alert status="error">
-                    <AlertIcon />
-                    <AlertTitle mr={2}>Error</AlertTitle>
-                    {errors.client?.non_field_errors}
+                    <>
+                      <AlertIcon />
+                      <AlertTitle mr={2}>Error</AlertTitle>
+                      {errors.client?.non_field_errors}
+                    </>
                   </Alert>
                 )}
               </Box>
-              <ClientForm
-                base_name="client."
-                editable={param.id === undefined}
-                search={true}
-              />
+              <ClientForm base_name="client." editable={param.id === undefined} search={true} />
             </Card>
           )}
           <Card>
             <ServiceForm base_name="services." />
-            <Button
-              title="Agregar Servicio"
-              w="auto"
-              onClick={handleAddService}
-            />
+            <Button title="Agregar Servicio" w="auto" onClick={handleAddService} />
           </Card>
         </Flex>
         <Box border="1px solid gray " rounded="xl" me={2}>
           <ServiceList
             services={services}
             removeService={removeService}
-            client={values.client.first_name + " " + values.client.last_name}
+            client={values.client.first_name + ' ' + values.client.last_name}
           />
         </Box>
       </Flex>

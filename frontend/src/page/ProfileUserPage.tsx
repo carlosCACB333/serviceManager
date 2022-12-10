@@ -1,17 +1,17 @@
-import { useContext, useState } from "react";
-import { Box, Flex, List, Text } from "@chakra-ui/react";
-import { Card } from "../Component/utils/Card";
+import { Box, Flex, List, Text } from '@chakra-ui/react';
+import { useContext, useState } from 'react';
+import { Card } from '../Component/utils/Card';
 
-import BackgroundProfile from "../Component/auth/BacgroundProfile";
-import ProfeItem from "../Component/auth/ProfileItem";
-import { AuthContext } from "../contexts/AuthContext";
-import ProfileUpdateForm from "../Component/Users/ProfileUpdateForm";
-import { FaUserEdit } from "react-icons/fa";
-import ChangePassForm from "../Component/Users/ChangePassForm";
+import { FaUserEdit } from 'react-icons/fa';
+import BackgroundProfile from '../Component/auth/BacgroundProfile';
+import ProfeItem from '../Component/auth/ProfileItem';
+import ChangePassForm from '../Component/Users/ChangePassForm';
+import ProfileUpdateForm from '../Component/Users/ProfileUpdateForm';
+import { AuthContext } from '../contexts/AuthContext';
 
 const options = [
-  { value: 1, name: "Actualizar Datos", icon: FaUserEdit },
-  { value: 2, name: "Actualizar contraseña", icon: FaUserEdit },
+  { value: 1, name: 'Actualizar Datos', icon: FaUserEdit },
+  { value: 2, name: 'Actualizar contraseña', icon: FaUserEdit },
 ];
 
 const ProfileUserPage = () => {
@@ -26,11 +26,11 @@ const ProfileUserPage = () => {
       <BackgroundProfile
         setBtnOption={setBtnOption}
         btnOption={btnOption}
-        name={user.first_name + " " + user.last_name}
+        name={user.first_name + ' ' + user.last_name}
         email={user.email}
         options={options}
       />
-      <Flex gap="2" direction={{ base: "column-reverse", lg: "row" }}>
+      <Flex gap="2" direction={{ base: 'column-reverse', lg: 'row' }}>
         <Card>
           <Box p="12px 5px" mb="12px">
             <Text fontSize="lg" fontWeight="bold">
@@ -52,11 +52,7 @@ const ProfileUserPage = () => {
 
         {/* colSpan={{ base: 12, lg: 6, xl: 4, "2xl": 3 }} */}
         <Flex flex={1} justifyContent="center">
-          <Card
-            className="scroll"
-            overscrollX="auto"
-            w={{ base: "full", lg: "auto" }}
-          >
+          <Card className="scroll" overscrollX="auto" w={{ base: 'full', lg: 'auto' }}>
             <>
               {btnOption === 1 && <ProfileUpdateForm user={user} />}
               {btnOption === 2 && <ChangePassForm />}

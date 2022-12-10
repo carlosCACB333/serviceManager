@@ -1,37 +1,37 @@
-import { UserInterface } from "./../interfaces/userInterfaces";
+import { UserInterface } from './../interfaces/userInterfaces';
 interface IUsersGetAll {
-  type: "userGetAll";
+  type: 'userGetAll';
   payload: UserInterface[];
 }
 interface IUsersAdd {
-  type: "userAdd";
+  type: 'userAdd';
   payload: UserInterface;
 }
 interface IUsersUpdate {
-  type: "userUpdate";
+  type: 'userUpdate';
   payload: UserInterface;
 }
 interface IUsersDelete {
-  type: "userDelete";
+  type: 'userDelete';
   payload: number;
 }
 interface IUsersSetActive {
-  type: "userSetActive";
+  type: 'userSetActive';
   payload: { id: number; checked: boolean };
 }
 interface IUserOnSelected {
-  type: "userOnSelected";
+  type: 'userOnSelected';
   payload: number;
 }
 interface IUserOfSelected {
-  type: "userOfSelection";
+  type: 'userOfSelection';
 }
 interface IErrorAdd {
-  type: "errorAdd";
+  type: 'errorAdd';
   payload: UserInterface;
 }
 interface IErrorClear {
-  type: "errorClear";
+  type: 'errorClear';
 }
 
 export type UserAction =
@@ -55,50 +55,43 @@ const initialState = {
   selected: undefined,
 };
 
-export const userReducer = (
-  state: UserState = initialState,
-  action: UserAction
-) => {
+export const userReducer = (state: UserState = initialState, action: UserAction) => {
   switch (action.type) {
-    case "userGetAll":
+    case 'userGetAll':
       return { ...state, users: action.payload };
-    case "userAdd":
+    case 'userAdd':
       return { ...state, users: [...state.users, action.payload] };
-    case "userUpdate":
+    case 'userUpdate':
       return {
         ...state,
-        users: state.users.map((user) =>
-          user.id === action.payload.id ? action.payload : user
-        ),
+        users: state.users.map((user) => (user.id === action.payload.id ? action.payload : user)),
         selected: undefined,
       };
-    case "userSetActive":
+    case 'userSetActive':
       return {
         ...state,
         users: state.users.map((user) =>
-          user.id === action.payload.id
-            ? { ...user, is_active: action.payload.checked }
-            : user
+          user.id === action.payload.id ? { ...user, is_active: action.payload.checked } : user
         ),
       };
 
-    case "userDelete":
+    case 'userDelete':
       return {
         ...state,
         users: state.users.filter((user) => user.id !== action.payload),
       };
-    case "userOnSelected":
+    case 'userOnSelected':
       return {
         ...state,
         selected: state.users.find((user) => user.id === action.payload),
       };
 
-    case "userOfSelection":
+    case 'userOfSelection':
       return { ...state, selected: undefined };
 
-    case "errorAdd":
+    case 'errorAdd':
       return { ...state, errors: action.payload };
-    case "errorClear":
+    case 'errorClear':
       return { ...state, errors: undefined };
 
     default:

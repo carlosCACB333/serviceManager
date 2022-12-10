@@ -1,5 +1,5 @@
-import { serviceInit } from "../../page/ServiceAddPage";
 import {
+  Box,
   CloseButton,
   Heading,
   Stack,
@@ -12,15 +12,15 @@ import {
   Thead,
   Tr,
   useColorModeValue,
-} from "@chakra-ui/react";
-import Button from "../forms/Button";
-import { Box } from "@chakra-ui/react";
-import AdvanceForm from "./AdvanceForm";
-import { FaDollarSign } from "react-icons/fa";
-import StatsCard from "./StactsCard";
-import { Card } from "../utils/Card";
-import InputText from "../forms/InputText";
-import { AiOutlineFundProjectionScreen } from "react-icons/ai";
+} from '@chakra-ui/react';
+import { AiOutlineFundProjectionScreen } from 'react-icons/ai';
+import { FaDollarSign } from 'react-icons/fa';
+import { serviceInit } from '../../page/ServiceAddPage';
+import Button from '../forms/Button';
+import InputText from '../forms/InputText';
+import { Card } from '../utils/Card';
+import AdvanceForm from './AdvanceForm';
+import StatsCard from './StactsCard';
 
 interface Props {
   services: typeof serviceInit[];
@@ -44,13 +44,13 @@ const ServiceList = ({ services, removeService, client }: Props) => {
       </Heading>
 
       <Text
-        color={"blue.400"}
+        color={'blue.400'}
         fontWeight={600}
-        fontSize={"md"}
-        bg={useColorModeValue("blue.50", "blue.900")}
+        fontSize={'md'}
+        bg={useColorModeValue('blue.50', 'blue.900')}
         p={2}
-        alignSelf={"flex-start"}
-        rounded={"md"}
+        alignSelf={'flex-start'}
+        rounded={'md'}
         my={3}
       >
         CLIENTE : {client}
@@ -72,12 +72,7 @@ const ServiceList = ({ services, removeService, client }: Props) => {
           <Tbody>
             {services.map((service, idx) => (
               <Tr key={idx}>
-                <Td
-                  textOverflow="ellipsis"
-                  whiteSpace="nowrap"
-                  overflow="hidden"
-                  maxW={40}
-                >
+                <Td textOverflow="ellipsis" whiteSpace="nowrap" overflow="hidden" maxW={40}>
                   {service.name}
                 </Td>
                 {/* <Td
@@ -93,10 +88,7 @@ const ServiceList = ({ services, removeService, client }: Props) => {
                 <Td isNumeric>{service.amount}</Td>
                 <Td isNumeric>{Number(service.cost) * service.amount}</Td>
                 <Td>
-                  <CloseButton
-                    color="red.500"
-                    onClick={() => removeService(service.name)}
-                  />
+                  <CloseButton color="red.500" onClick={() => removeService(service.name)} />
                 </Td>
               </Tr>
             ))}
@@ -110,13 +102,9 @@ const ServiceList = ({ services, removeService, client }: Props) => {
           </Tfoot>
         </Table>
       </Box>
-      <Stack my="5" direction={{ base: "column", lg: "row" }}>
+      <Stack my="5" direction={{ base: 'column', lg: 'row' }}>
         <Card p="5" w="full">
-          <StatsCard
-            title="Precio total"
-            stat={precioTotal + " Soles"}
-            icon={<FaDollarSign size={30} />}
-          />
+          <StatsCard title="Precio total" stat={precioTotal + ' Soles'} icon={<FaDollarSign size={30} />} />
         </Card>
         <Card p="5" w="full">
           <StatsCard
@@ -127,11 +115,7 @@ const ServiceList = ({ services, removeService, client }: Props) => {
         </Card>
       </Stack>
       <AdvanceForm base_name="payments." />
-      <InputText
-        name={"end_date"}
-        label="Entrega prevista"
-        type="datetime-local"
-      />
+      <InputText name={'end_date'} label="Entrega prevista" type="datetime-local" />
       <Button title="Registrar servicio" type="submit" size="lg" />
     </Box>
   );

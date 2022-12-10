@@ -1,23 +1,21 @@
-import { Button, Flex, Heading, Input, Progress } from "@chakra-ui/react";
-import { useState } from "react";
-import { Card } from "../Component/utils/Card";
-import { useEffect } from "react";
-import { listServiceApi } from "../helpers/api";
-import { Box } from "@chakra-ui/react";
-import { TicketInterface } from "../interfaces/serviceInterface";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { Box, Button, Flex, Heading, Input, Progress } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { Card } from '../Component/utils/Card';
+import { listServiceApi } from '../helpers/api';
+import { TicketInterface } from '../interfaces/serviceInterface';
 
-import TicketTable from "../Component/services/TicketTable";
+import TicketTable from '../Component/services/TicketTable';
 
 const ServiceListPage = () => {
   const [tickets, setTickets] = useState<TicketInterface[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [next, setNext] = useState();
   const [prev, setPrev] = useState();
 
   useEffect(() => {
-    const url = "service/ticket/?search=" + search;
+    const url = 'service/ticket/?search=' + search;
     listService(url);
   }, [search]);
 
@@ -35,9 +33,7 @@ const ServiceListPage = () => {
 
   return (
     <Box w="full">
-      <Box h={1}>
-        {loading && <Progress flex={1} isIndeterminate size="xs" />}
-      </Box>
+      <Box h={1}>{loading && <Progress flex={1} isIndeterminate size="xs" />}</Box>
       <Card w="full" overflowX="auto" className="scroll">
         <Flex justify="space-between" mb={3}>
           <Heading size="lg">Ventas</Heading>
@@ -55,7 +51,7 @@ const ServiceListPage = () => {
         <Box>
           {prev && (
             <Button
-              onClick={() => listService(prev + "&search=" + search)}
+              onClick={() => listService(prev + '&search=' + search)}
               me={1}
               colorScheme="blue"
               leftIcon={<FaAngleLeft />}
@@ -65,7 +61,7 @@ const ServiceListPage = () => {
           )}
           {next && (
             <Button
-              onClick={() => listService(next + "&search=" + search)}
+              onClick={() => listService(next + '&search=' + search)}
               colorScheme="blue"
               rightIcon={<FaAngleRight />}
             >

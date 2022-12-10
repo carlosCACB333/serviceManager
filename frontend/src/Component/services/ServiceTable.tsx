@@ -17,30 +17,22 @@ import {
   Thead,
   Tr,
   useDisclosure,
-} from "@chakra-ui/react";
-import { Form, Formik, FormikHelpers } from "formik";
-import { FaEdit } from "react-icons/fa";
-import { ServiceInterface } from "../../interfaces/serviceInterface";
-import { serviceUpdateValidator } from "../../validators/formValidator";
-import Confirm from "../utils/Confirm";
-import ServiceForm from "./ServiceForm";
+} from '@chakra-ui/react';
+import { Form, Formik, FormikHelpers } from 'formik';
+import { FaEdit } from 'react-icons/fa';
+import { ServiceInterface } from '../../interfaces/serviceInterface';
+import { serviceUpdateValidator } from '../../validators/formValidator';
+import Confirm from '../utils/Confirm';
+import ServiceForm from './ServiceForm';
 
 interface Props {
   services?: ServiceInterface[];
   editable?: boolean;
   removeService: (id: number) => void;
-  updateService: (
-    data: ServiceInterface,
-    action: FormikHelpers<ServiceInterface>
-  ) => Promise<boolean>;
+  updateService: (data: ServiceInterface, action: FormikHelpers<ServiceInterface>) => Promise<boolean>;
 }
 
-const ServiceTable = ({
-  editable = true,
-  services = [],
-  removeService,
-  updateService,
-}: Props) => {
+const ServiceTable = ({ editable = true, services = [], removeService, updateService }: Props) => {
   let precioTotal = 0;
   let prejectoTotal = 0;
   services.forEach((service) => {
@@ -80,14 +72,8 @@ const ServiceTable = ({
               <Td>
                 {editable && (
                   <Flex align="center">
-                    <ModalService
-                      service={service}
-                      updateService={updateService}
-                    />
-                    <Confirm
-                      onClick={() => removeService(service.id)}
-                      type="close"
-                    />
+                    <ModalService service={service} updateService={updateService} />
+                    <Confirm onClick={() => removeService(service.id)} type="close" />
                   </Flex>
                 )}
               </Td>
@@ -108,10 +94,7 @@ const ServiceTable = ({
 
 interface ModalServiceProps {
   service: ServiceInterface;
-  updateService: (
-    data: ServiceInterface,
-    action: FormikHelpers<ServiceInterface>
-  ) => Promise<boolean>;
+  updateService: (data: ServiceInterface, action: FormikHelpers<ServiceInterface>) => Promise<boolean>;
 }
 
 const ModalService = ({ updateService, service }: ModalServiceProps) => {
@@ -132,12 +115,7 @@ const ModalService = ({ updateService, service }: ModalServiceProps) => {
         validationSchema={serviceUpdateValidator}
       >
         {() => (
-          <Modal
-            isOpen={isOpen}
-            onClose={onClose}
-            scrollBehavior="inside"
-            size="xl"
-          >
+          <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside" size="xl">
             <Form>
               <ModalOverlay />
               <ModalContent>

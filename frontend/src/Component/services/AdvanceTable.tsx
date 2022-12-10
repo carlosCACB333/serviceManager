@@ -1,9 +1,8 @@
-import { Table, Tbody, Td, Tfoot, Th, Thead, Tr } from "@chakra-ui/react";
-import React from "react";
+import { Table, Tbody, Td, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
 
-import moment from "moment";
-import { PaymentInterface } from "../../interfaces/serviceInterface";
-import Confirm from "../utils/Confirm";
+import moment from 'moment';
+import { PaymentInterface } from '../../interfaces/serviceInterface';
+import Confirm from '../utils/Confirm';
 
 interface Props {
   editable?: boolean;
@@ -30,15 +29,13 @@ const AdvanceTable = ({ editable = true, advances, removeAdvance }: Props) => {
       <Tbody>
         {advances.map((advance) => (
           <Tr key={advance.id}>
-            <Td>{moment(advance.date).format("LLLL")}</Td>
+            <Td>{moment(advance.date).format('LLLL')}</Td>
             <Td isNumeric>{advance.amount}</Td>
             <Td>{advance.detail}</Td>
             <Td>
               {editable && (
                 <Confirm
-                  desc={
-                    "Esta acción es irreversible. ¿Deseas eliminar este pago?"
-                  }
+                  desc={'Esta acción es irreversible. ¿Deseas eliminar este pago?'}
                   onClick={() => removeAdvance(advance.id)}
                   type="close"
                 />

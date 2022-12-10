@@ -8,16 +8,13 @@ import {
   Input,
   ListItem,
   UnorderedList,
-} from "@chakra-ui/react";
-import { useField, useFormikContext } from "formik";
-import { useEffect, useState } from "react";
-import {
-  ClientInterface,
-  TicketInterface,
-} from "../../interfaces/serviceInterface";
-import { getClientsAllApi } from "../../helpers/api";
-import { SideBarItem } from "./../../routers/SideBar";
-import { FaSearchPlus } from "react-icons/fa";
+} from '@chakra-ui/react';
+import { useField, useFormikContext } from 'formik';
+import { useEffect, useState } from 'react';
+import { FaSearchPlus } from 'react-icons/fa';
+import { getClientsAllApi } from '../../helpers/api';
+import { ClientInterface, TicketInterface } from '../../interfaces/serviceInterface';
+import { SideBarItem } from './../../routers/SideBar';
 
 export interface InputProps {
   name: string;
@@ -40,7 +37,7 @@ const Search = ({ label, help, ...props }: InputProps) => {
 
   useEffect(() => {
     if (client.first_name.length > 0 && client.id === undefined) {
-      const url = "auth/client/?search=" + client.first_name;
+      const url = 'auth/client/?search=' + client.first_name;
       getClientsAllApi(url)
         .then((res) => setClients(res.data.results))
         .catch((err) => console.log(err.response));
@@ -52,13 +49,7 @@ const Search = ({ label, help, ...props }: InputProps) => {
   return (
     <FormControl isInvalid={!!meta.error && meta.touched} position="relative">
       <FormLabel>{label || props.placeholder || field.name}</FormLabel>
-      <Input
-        autoComplete="none"
-        variant="filled"
-        value={value || ""}
-        {...fieldRest}
-        {...props}
-      />
+      <Input autoComplete="none" variant="filled" value={value || ''} {...fieldRest} {...props} />
 
       {clients.length > 0 && (
         <Flex
@@ -75,8 +66,8 @@ const Search = ({ label, help, ...props }: InputProps) => {
           <Flex direction="column" maxH={350} className="scroll">
             {clients.map((client) => (
               <SideBarItem
-                name={client.first_name + " " + client.last_name}
-                url={"/service/add/" + client.id}
+                name={client.first_name + ' ' + client.last_name}
+                url={'/service/add/' + client.id}
                 icon={FaSearchPlus}
                 key={client.id}
               />

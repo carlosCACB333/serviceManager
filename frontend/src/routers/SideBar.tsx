@@ -11,8 +11,8 @@ import {
   Text,
   useColorMode,
   useMediaQuery,
-} from "@chakra-ui/react";
-import { NavLink, useLocation } from "react-router-dom";
+} from '@chakra-ui/react';
+import { Dispatch, FunctionComponent, SetStateAction, useContext } from 'react';
 import {
   FaBuffer,
   FaClipboardList,
@@ -22,9 +22,9 @@ import {
   FaSun,
   FaUserAlt,
   FaUserFriends,
-} from "react-icons/fa";
-import { Dispatch, FunctionComponent, SetStateAction, useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+} from 'react-icons/fa';
+import { NavLink, useLocation } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 // import calendar from "../assets/calendar.png";
 interface Props {
   setShow: Dispatch<SetStateAction<boolean>>;
@@ -33,7 +33,7 @@ const SideBar = ({ setShow }: Props) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { authLogout } = useContext(AuthContext);
 
-  const [isLarge] = useMediaQuery("(min-width: 62em)");
+  const [isLarge] = useMediaQuery('(min-width: 62em)');
 
   const handleLogout = () => {
     authLogout();
@@ -60,17 +60,8 @@ const SideBar = ({ setShow }: Props) => {
     >
       <Box>
         <HStack mb="20px" justifyContent="center">
-          <Img
-            src={require("../assets/calendar.png")}
-            h="60px"
-            borderRadius="15px"
-          />
-          <Text
-            fontWeight="bold"
-            ms="5"
-            className="logo"
-            textTransform="uppercase"
-          >
+          <Img src={require('../assets/calendar.png')} h="60px" borderRadius="15px" />
+          <Text fontWeight="bold" ms="5" className="logo" textTransform="uppercase">
             JCB System
           </Text>
         </HStack>
@@ -79,71 +70,37 @@ const SideBar = ({ setShow }: Props) => {
           <Text fontSize="small" ms="2">
             Dashboard
           </Text>
-          <SideBarItem
-            onClick={handleChange}
-            url="/"
-            name="home"
-            icon={FaBuffer}
-          />
-          <SideBarItem
-            onClick={handleChange}
-            url="/profile"
-            name="Perfil"
-            icon={FaUserAlt}
-          />
+          <SideBarItem onClick={handleChange} url="/" name="home" icon={FaBuffer} />
+          <SideBarItem onClick={handleChange} url="/profile" name="Perfil" icon={FaUserAlt} />
         </Stack>
         <Stack>
           <Text fontSize="small" ms="2">
             Servicios
           </Text>
-          <SideBarItem
-            onClick={handleChange}
-            url="/service/add"
-            name="Registrar venta"
-            icon={FaDollarSign}
-          />
-          <SideBarItem
-            onClick={handleChange}
-            url="/service/list"
-            name="Lista de ventas"
-            icon={FaClipboardList}
-          />
+          <SideBarItem onClick={handleChange} url="/service/add" name="Registrar venta" icon={FaDollarSign} />
+          <SideBarItem onClick={handleChange} url="/service/list" name="Lista de ventas" icon={FaClipboardList} />
         </Stack>
         <Stack>
           <Text fontSize="small" ms="2">
             Clientes
           </Text>
 
-          <SideBarItem
-            onClick={handleChange}
-            url="/client"
-            name="Clientes"
-            icon={FaUserFriends}
-          />
+          <SideBarItem onClick={handleChange} url="/client" name="Clientes" icon={FaUserFriends} />
         </Stack>
         <Stack>
           <Text fontSize="small" ms="2">
             Usuarios
           </Text>
 
-          <SideBarItem
-            onClick={handleChange}
-            url="/users"
-            name="Usuarios"
-            icon={FaUserFriends}
-          />
+          <SideBarItem onClick={handleChange} url="/users" name="Usuarios" icon={FaUserFriends} />
         </Stack>
       </Box>
 
       <HStack>
-        <IconButton
-          aria-label="Salir"
-          icon={<FaPowerOff />}
-          onClick={handleLogout}
-        />
+        <IconButton aria-label="Salir" icon={<FaPowerOff />} onClick={handleLogout} />
         <IconButton
           aria-label="tema"
-          icon={colorMode === "dark" ? <FaSun /> : <FaRegMoon />}
+          icon={colorMode === 'dark' ? <FaSun /> : <FaRegMoon />}
           onClick={toggleColorMode}
         />
       </HStack>
@@ -171,7 +128,7 @@ export const SideBarItem = ({
         w="100%"
         justifyContent="flex-start"
         _focus={{
-          boxShadow: "0px 7px 11px rgba(0, 0, 0, 0.04)",
+          boxShadow: '0px 7px 11px rgba(0, 0, 0, 0.04)',
         }}
         bg="transparent"
         m="0"
@@ -184,8 +141,8 @@ export const SideBarItem = ({
             me="1"
             justifyContent="center"
             alignItems="center"
-            color={active ? "blue.100" : "blue.500"}
-            bg={active ? "blue.500" : "gray.200"}
+            color={active ? 'blue.100' : 'blue.500'}
+            bg={active ? 'blue.500' : 'gray.200'}
           >
             <Icon as={icon}></Icon>
           </Flex>
